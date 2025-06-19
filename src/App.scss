@@ -1,0 +1,25 @@
+@use './styles/utils/variables';
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--color-bg);
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-width: 320px;
+  max-width: 1320px;
+  scroll-behavior: smooth;
+  margin: 0 auto;
+
+}
+
+.App__content {
+  flex-grow: 1;
+}
