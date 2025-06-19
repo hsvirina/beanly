@@ -1,0 +1,52 @@
+@use '../../../../styles/utils/mixins.scss' as mixins;
+
+.popularPlaces {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+  margin-block: 150px;
+}
+
+.popularPlaces__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  position: relative;
+}
+
+.popularPlaces__title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+  pointer-events: none;
+  color: var(--color-gray-100);
+}
+
+.popularPlaces__sliders {
+  width: 100%;
+  overflow: hidden;
+}
+
+.popularPlaces__sliderTrack {
+  display: flex;
+  gap: 20px;
+  transition: transform 0.4s ease-in-out;
+}
+
+// .placeCard {
+//   flex: 0 0 315px;
+//   width: 315px;
+// }
+
+.popularPlaces__sliderTrack {
+  flex-wrap: nowrap; // чтобы они не переносились
+}
+
+.placeCard {
+  flex: 0 0 calc((100% - 3 * 20px) / 4);
+  min-width: 200px;
+  max-width: 100%;
+}
