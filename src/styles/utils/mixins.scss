@@ -1,0 +1,11 @@
+@mixin content-padding-inline {
+  max-width: 1320px;
+}
+
+@mixin page-grid {
+  --columns: 8;
+
+  display: grid;
+  column-gap: 20px;
+  grid-template-columns: repeat(var(--columns), 1fr);
+}
