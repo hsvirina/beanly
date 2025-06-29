@@ -1,0 +1,65 @@
+@use '../../../../styles/utils/mixins.scss' as mixins;
+
+.welcomeBlock {
+  @include mixins.page-grid;
+
+  align-items: center;
+  margin-top: 150px;
+}
+
+.welcomeBlock__content {
+  display: flex;
+  flex-direction: column;
+  max-width: 590px;
+  gap: 32px;
+
+  grid-column: 1 / span 4;
+}
+
+.welcomeBlock__info {
+  display: flex;
+  gap: 20px;
+  padding-block: 20px;
+  align-items: center;
+}
+
+.welcomeBlock__info-block {
+  display: flex;
+  flex-direction: column;
+  max-width: 182px;
+  gap: 8px;
+}
+
+.welcomeBlock__button {
+  height: 48px;
+  width: fit-content;
+  box-sizing: border-box;
+  padding: 12px 24px;
+  border: 1px solid var(--color-primary);
+  background-color: var(--color-bg);
+  color: var(--color-primary);
+  border-radius: 40px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+}
+
+.welcomeBlock__image-wrapper {
+  grid-column: 5 / span 4;
+  border-radius: 40px;
+  overflow: hidden;
+  max-height: 500px;
+}
+
+.welcomeBlock__image {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.welcomeBlock__highlight {
+  color: var(--color-primary);
+}

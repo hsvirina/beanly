@@ -1,7 +1,10 @@
 .homePage__title {
   font-size: 80px;
-  line-height: 110px;
   max-width: 1172px;
   text-align: center;
   margin: 64px auto;
+}
+
+.homePage__highlight {
+  color: var(--color-primary);
 }

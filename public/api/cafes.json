@@ -1,0 +1,304 @@
+[
+  {
+    "id": 1,
+    "name": "Larks & Owls",
+    "rating": 4.6,
+    "reviewsCount": 330,
+    "city": "Kyiv",
+    "address": "18/1, Prorizna Street, Kyiv",
+    "workHours": "Mon-Sun 08:00–20:00",
+    "shortDescription": "A cozy spot with big windows, specialty coffee, and homemade pastries — perfect for work sessions or slow mornings with a book.",
+    "fullDescription": "Our café is a warm and welcoming space where quality coffee meets calm atmosphere. We serve freshly brewed drinks made from locally roasted beans, along with homemade treats. Whether you're here to work, relax, or catch up with friends — it’s a place to slow down and enjoy the moment.",
+    "review": "Very nice place.\n\nFirst of all, the waiters are friendly, smiling, trying to help, just kind ♥️\n\nNo smell of the kitchen ++\nThe sun is shining, it's warm, cozy and you enjoy it.\n\nFast service, delicious coffee, waffles, and tart🥰\nOne of the most delicious I've ever tried.",
+    "tags": [
+      "Work-friendly",
+      "Specialty coffee",
+      "Cozy vibe",
+      "Brunch & snacks"
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Beans Lab coffee-bar",
+    "rating": 4.5,
+    "reviewsCount": 841,
+    "city": "Kyiv",
+    "address": "Tarasa Shevchenko, 2, Kyiv",
+    "workHours": "Mon-Sun 08:00–21:00",
+    "shortDescription": "A cozy spot with big windows, specialty brews, and homemade snacks — perfect for creative work or slow mornings at Beans Lab coffee-bar.",
+    "fullDescription": "Beans Lab coffee-bar is a space where craft coffee meets calm, creative energy. We brew with care using locally roasted beans and serve fresh pastries daily. Whether you're diving into work or just taking a break, Beans Lab invites you to pause, recharge, and enjoy.",
+    "review": "Excellent small cafe in the heart of Kiev, yet it’s on the small relatively quiet street.\n\nThey are very passionate about the coffee. You can find regular espresso, pour-over, cold brew etc. ☕️\n\nIt’s also a cool place to bring your laptop and work for few hours. 💻 All tables are comfortable. However, they have two window-facing tables that are super comfortable and great for people watching. 🙂",
+    "tags": [
+      "Work-friendly",
+      "Specialty coffee",
+      "Cozy vibe",
+      "Brunch & snacks"
+    ]
+  },
+  {
+    "id": 3,
+    "name": "16.coffee",
+    "rating": 4.7,
+    "reviewsCount": 614,
+    "city": "Kyiv",
+    "address": "Kropyvnytskyi Street, 16, Kyiv",
+    "workHours": "Mon-Sun 08:00–19:00",
+    "shortDescription": "A sleek coffee spot with cool vibes, strong espresso, and plenty of space to chill or catch up — made for the city’s young and curious.",
+    "fullDescription": "16.coffee is a modern hangout for coffee lovers who live fast but pause with purpose. We serve bold brews, minimalist style, and good energy all day long. Whether you're grabbing a to-go or staying for the playlist — this is your go-to spot to vibe, connect, and recharge.",
+    "review": "Very nice coffee shop in a peaceful street. Nice music vibe inside, and outside tables on the street are available.\nGood coffee, and nice cheesecake. But the coffee is the strong point here.\nGreat way to start your morning.",
+    "tags": [
+      "Work-friendly",
+      "Trendy & urban",
+      "To-go & quick stop",
+      "Vegan options"
+    ]
+  },
+  {
+    "id": 4,
+    "name": "BOODOO KAVU",
+    "rating": 4.6,
+    "reviewsCount": 421,
+    "city": "Kyiv",
+    "address": "Volodymyrska Street, 18, Kyiv",
+    "workHours": "Mon-Sun 08:00–21:00",
+    "shortDescription": "A bold corner for wild flavors, vinyl beats, and moody lights — BOODOO KAVU is where coffee gets a little magic.",
+    "fullDescription": "BOODOO KAVU isn’t just a coffee bar — it’s a vibe. We mix rich espresso with raw energy, serve it with a side of vinyl, art, and dimmed lights. Come for the caffeine, stay for the mood. No rules, just good taste.",
+    "review": "I love this cafe for its delicious drinks and friendly staff. The baristas are very nice and will always recommend something delicious, and the place itself is cozy and works even during power outages.\nI would like to highlight the lemon tart, a very tasty dessert!! 💛",
+    "tags": [
+      "Trendy & urban",
+      "Specialty coffee",
+      "Cozy vibe",
+      "Pet-friendly",
+      "Vegan options"
+    ]
+  },
+  {
+    "id": 5,
+    "name": "DOT. MATCHA BAR & COFFEE",
+    "rating": 4.6,
+    "reviewsCount": 152,
+    "city": "Kyiv",
+    "address": "Basseynaya, 1, Kyiv",
+    "workHours": "Mon-Sun 08:00–22:00",
+    "shortDescription": "Minimalist coffee bar with calm vibes, clean aesthetics, and perfectly balanced drinks — ideal for those who love mindful coffee and tea moments.",
+    "fullDescription": "DOT. MATCHA BAR & COFFEE is a place for connoisseurs of aesthetics, harmony and new flavors. The main star of the menu is matcha in all its manifestations. In addition to matcha, they serve specialty coffee and minimalist desserts that complement the atmosphere of calm and focus. The interior is bright, spacious, and restrained, making DOT an ideal place for a mindful break, work, or a leisurely meeting. This is a new generation coffee shop - quiet, stylish, inspired.",
+    "review": "Love at first sip! Their matcha is the best I’ve had in Kyiv — smooth, rich, and beautifully served. The space is calm and inspiring. A must-visit if you love minimal design and thoughtful drinks.",
+    "tags": [
+      "Matcha bar",
+      "Minimalist",
+      "Calm & clean",
+      "Specialty coffee",
+      "Aesthetic space"
+    ]
+  },
+  {
+    "id": 6,
+    "name": "Astra Coffeebar",
+    "rating": 4.5,
+    "reviewsCount": 346,
+    "city": "Kyiv",
+    "address": "Berezneva, 12, Kyiv",
+    "workHours": "Mon-Sun 08:00–21:00",
+    "shortDescription": "A stylish neighborhood coffee bar with top-tier espresso, creative drinks, and a cozy local vibe.",
+    "fullDescription": "Astra Coffeebar is a sleek and welcoming spot in Kyiv known for its expertly brewed coffee and warm community feel. The menu features espresso classics, creative signature drinks, and pastries from local bakeries. With its minimal design, curated playlists, and friendly baristas, Astra offers the perfect blend of quality and comfort. Whether you're grabbing a quick cortado or staying for a slow weekend chat — this place always feels just right.",
+    "review": "Loved the vibe and the coffee quality — everything felt thoughtful and well-crafted. The baristas were super friendly, and the space has that cool-but-warm energy. Definitely a new favorite in Kyiv ❤️",
+    "tags": [
+      "Specialty coffee",
+      "Pet-friendly",
+      "Signature drinks",
+      "Minimalist style",
+      "Cozy & modern"
+    ]
+  },
+  {
+    "id": 7,
+    "name": "Etre Sofie",
+    "rating": 4.4,
+    "reviewsCount": 834,
+    "city": "Kyiv",
+    "address": "Volodymyrska, 24, Kyiv",
+    "workHours": "Mon 11:00-22:00, Tue-Sun 09:00–22:00",
+    "shortDescription": "A refined French‑style café‑restaurant by Sofiyska Square, offering elegant interiors, seasonal menu, and live music.",
+    "fullDescription": "Being Sofie (Etre Sofie) is a combination of French elegance and modern Kyiv cuisine, located in the historic 18th-century Consistory right on the territory of the St. Sophia of Kyiv Conservation Area. The interior creates the atmosphere of a Parisian living room: oak parquet, antique furniture, mirrors, chandeliers and summer terraces - one of them even has a “secret garden” overlooking the bell tower.",
+    "review": "We are fascinated by the atmosphere and French cuisine, especially desserts. Interior is elegant, suitable for romantic dinners 😍✨ In summer, there is an incredible summer terrace with live music) you can come here for any occasion in any season, it's always magical here!",
+    "tags": [
+      "French‑style ambience",
+      "Historic venue (Sophia Kyiv)",
+      "Seasonal & modern cuisine",
+      "Live music",
+      "Romantic & elegant"
+    ]
+  },
+  {
+    "id": 8,
+    "name": "Paul",
+    "rating": 4.2,
+    "reviewsCount": 1566,
+    "city": "Kyiv",
+    "address": "Yaroslaviv Val, 26, Kyiv",
+    "workHours": "Sun-Thu 09:00–21:00, Fri-Sat 09:00–22:00",
+    "shortDescription": "A French-style bakery café chain offering freshly baked breads, delicate pastries, and quality coffee in a cozy, Parisian-inspired setting.",
+    "fullDescription": "PAUL is a part of the French chain brand with a history dating back to 1889, which is represented in more than 750 locations in 47 countries. In Kyiv, the coffee shop is located near the Golden Gate. Interior is designed in classical style: black and white decor, wooden elements, light warm colors.",
+    "review": "Who said that real croissants can only be tasted in Paris? 😉 A croissant with a pear is the pinnacle of gastronomic pleasure. And the coffee in the restaurant is fine)",
+    "tags": [
+      "French bakery chain",
+      "Breads & pastries",
+      "Specialty coffee",
+      "Cozy & classic interior",
+      "Breakfast & brunch"
+    ]
+  },
+  {
+    "id": 9,
+    "name": "Blur coffee shop lviv",
+    "rating": 4.3,
+    "reviewsCount": 66,
+    "city": "Lviv",
+    "address": "Furmanska, 9, Lviv",
+    "workHours": "Mon-Sun 09:00–21:00",
+    "shortDescription": "A stylish spot in the heart of Lviv with artisan coffee, elegant interior, and peaceful atmosphere — great for slow mornings or focused work.",
+    "fullDescription": "Blur is a cozy and stylish café tucked away in the center of Lviv. Known for its carefully crafted coffee, minimalist design, and serene vibe, it’s a perfect escape from the city buzz. Whether you're catching up with a friend, diving into a book, or working remotely, Blur offers a calming space with great music, fast Wi-Fi, and exceptional brews.",
+    "review": "A hidden gem in Lviv. The staff is incredibly attentive, the interior is calming and inspiring. Coffee was top-notch — especially the flat white! Perfect spot to focus or unwind☕✨ Will definitely come back with friends!",
+    "tags": [
+      "Work-friendly",
+      "Specialty coffee",
+      "Minimalist design",
+      "Calm vibe",
+      "Brunch & desserts",
+      "Pet-friendly"
+    ]
+  },
+  {
+    "id": 10,
+    "name": "Cafe Vitalnia",
+    "rating": 4.5,
+    "reviewsCount": 232,
+    "city": "Lviv",
+    "address": "Akad. Bohomoltsia, 6, Lviv",
+    "workHours": "Mon-Sun 09:00–21:00",
+    "shortDescription": "A charming café with vintage décor, homemade desserts, and a soulful vibe — ideal for cozy talks or peaceful solo moments.",
+    "fullDescription": "Cafe Vitalnia is a soulful and intimate coffee spot nestled in a quiet corner of Lviv. The interior blends vintage charm with homey touches — wooden furniture, old books, warm lighting. Here, time slows down. They serve specialty coffee with attention to detail, alongside homemade cakes, pies, and light breakfast options.",
+    "review": "Such a peaceful and heartwarming place. The music, the smell of fresh coffee, and the lovely barista made my day. Their cheesecake is a must-try! Felt like visiting a dear friend’s living room.",
+    "tags": [
+      "Cozy vibe",
+      "Vintage interior",
+      "Homemade desserts",
+      "Specialty coffee",
+      "Quiet & soulful"
+    ]
+  },
+  {
+    "id": 11,
+    "name": "Respublika Sadu",
+    "rating": 4.5,
+    "reviewsCount": 117,
+    "city": "Lviv",
+    "address": "Volodymyra Vynnychenko, 20a, Lviv",
+    "workHours": "Mon-Sun 10:00–22:00",
+    "shortDescription": "A lush café full of greenery, fresh air, and natural light — perfect for nature lovers and mindful coffee breaks.",
+    "fullDescription": "Respublika Sadu is a unique urban oasis in Lviv that brings the beauty of nature indoors. Surrounded by vibrant plants and filled with natural light, this café creates a refreshing and peaceful atmosphere. The menu includes specialty coffee, herbal teas, healthy snacks, and fresh pastries — all served in a space that feels like a cozy greenhouse.",
+    "review": "A breath of fresh air in the middle of the city. It feels like stepping into a garden — so peaceful and alive. Coffee was smooth, and the lemon tart was delicious. Loved the plants, the light, and the relaxing vibe. 🌿☕",
+    "tags": [
+      "Green & plant-filled",
+      "Relaxing vibe",
+      "Specialty coffee",
+      "Pet-friendly",
+      "Healthy & fresh"
+    ]
+  },
+  {
+    "id": 12,
+    "name": "Alterkava",
+    "rating": 4.3,
+    "reviewsCount": 135,
+    "city": "Lviv",
+    "address": "Stefanyka, 11, Lviv",
+    "workHours": "Mon-Sun 10:00–21:00",
+    "shortDescription": "A tiny take-away coffee spot with big flavor — top-notch espresso, quick service, and friendly baristas right near the city center.",
+    "fullDescription": "Alterkava is a minimalist coffee stand located on Stefanyka Street in Lviv, perfect for those on the go but unwilling to compromise on quality. Though small in size, it delivers big on taste — the baristas here are known for their craft and attention to detail.",
+    "review": "One of the best espresso shots in the city! Fast, smooth, and always consistent. The barista remembered my order after the second visit — love that personal touch. Great energy, even for a quick stop.",
+    "tags": [
+      "To-go & quick stop",
+      "Specialty coffee",
+      "Minimalist",
+      "Friendly baristas",
+      "City center"
+    ]
+  },
+  {
+    "id": 13,
+    "name": "Mitte",
+    "rating": 4.3,
+    "reviewsCount": 172,
+    "city": "Lviv",
+    "address": "Knyahyni Olhy, 98B, Lviv",
+    "workHours": "Mon-Sun 08:00–21:30",
+    "shortDescription": "A modern café with clean aesthetics, craft coffee, and a creative vibe — perfect for focused work or stylish meetups.",
+    "fullDescription": "Mitte is a sleek, modern café in Lviv that blends minimalism with warmth. Known for its clean lines, thoughtful design, and perfectly balanced coffee, it attracts creatives, freelancers, and coffee lovers alike.",
+    "review": "The most aesthetically pleasing café in Lviv ❤️ The coffee is always on point, and the space feels calming and energizing at the same time. Great for working or meeting someone who appreciates design.",
+    "tags": [
+      "Minimalist",
+      "Creative space",
+      "Specialty coffee",
+      "Design-forward",
+      "Work-friendly"
+    ]
+  },
+  {
+    "id": 14,
+    "name": "Black Honey",
+    "rating": 4.7,
+    "reviewsCount": 1276,
+    "city": "Lviv",
+    "address": "Kryva Lypa, 3, Lviv",
+    "workHours": "Mon-Sun 08:00–21:00",
+    "shortDescription": "A trendy coffee spot on Kryva Lypa with bold brews, cool vibes, and a buzzing crowd — perfect for coffee dates or people-watching.",
+    "fullDescription": "Black Honey on Kryva Lypa is one of Lviv’s most iconic specialty coffee spots. With its lively location, stylish interior, and top-tier coffee, it draws in everyone from coffee purists to curious passersby.",
+    "review": "Always buzzing and always good. Their cappuccino never misses, and the energy of Kryva Lypa adds to the charm. Great place to meet friends or just enjoy people-watching with a cup in hand.",
+    "tags": [
+      "Trendy spot",
+      "Specialty coffee",
+      "Lively atmosphere",
+      "Great desserts",
+      "Pet-friendly"
+    ]
+  },
+  {
+    "id": 15,
+    "name": "Tribe",
+    "rating": 4.6,
+    "reviewsCount": 136,
+    "city": "Lviv",
+    "address": "Brativ Rohatyntsiv, 14, Lviv",
+    "workHours": "Mon-Sun 09:00–21:00",
+    "shortDescription": "A cozy, community-driven café with specialty coffee, plants, and a warm, creative vibe — like a second home.",
+    "fullDescription": "Tribe is more than just a coffee shop — it’s a space built around connection, creativity, and calm. Nestled in Lviv, this café welcomes you with a warm atmosphere, leafy greenery, and soft music.",
+    "review": "Felt instantly at ease here. The coffee was excellent, the vibe even better. Plants, music, people — everything in harmony. A true community café where you feel seen.",
+    "tags": [
+      "Community vibe",
+      "Creative space",
+      "Specialty coffee",
+      "Plant-filled",
+      "Mindful & cozy"
+    ]
+  },
+  {
+    "id": 16,
+    "name": "UNO City Cafe",
+    "rating": 4.7,
+    "reviewsCount": 131,
+    "city": "Lviv",
+    "address": "Spytalna, 1, Lviv",
+    "workHours": "Mon-Sun 09:00–21:00",
+    "shortDescription": "Gastronomic and coffee space with a view of the Opera House. A bright, urban café with panoramic windows, signature drinks, and a stylish yet relaxed atmosphere.",
+    "fullDescription": "UNO City Cafe is a modern city coffee shop with an elegant interior, large windows and a pleasant atmosphere. It is ideal for a leisurely breakfast, a productive working day or a cozy meeting with friends.",
+    "review": "The perfect combination of style and comfort. I really liked the drinks service, and the bowl was delicious. The hall is spacious, there is a lot of light, good music - it's a pleasure to work here👍",
+    "tags": [
+      "City vibe",
+      "Panoramic windows",
+      "Specialty coffee",
+      "Work-friendly",
+      "Stylish & spacious"
+    ]
+  }
+]

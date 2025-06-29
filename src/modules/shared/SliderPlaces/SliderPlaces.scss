@@ -1,14 +1,12 @@
-@use '../../../../styles/utils/mixins.scss' as mixins;
-
-.popularPlaces {
+.sliderPlaces {
   display: flex;
   flex-direction: column;
   gap: 24px;
   width: 100%;
-  margin-block: 150px;
+  margin-top: 150px;
 }
 
-.popularPlaces__header {
+.sliderPlaces__header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -16,7 +14,7 @@
   position: relative;
 }
 
-.popularPlaces__title {
+.sliderPlaces__title {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
@@ -25,24 +23,19 @@
   color: var(--color-gray-100);
 }
 
-.popularPlaces__sliders {
+.sliderPlaces__sliders {
   width: 100%;
   overflow: hidden;
 }
 
-.popularPlaces__sliderTrack {
+.sliderPlaces__sliderTrack {
   display: flex;
   gap: 20px;
   transition: transform 0.4s ease-in-out;
 }
 
-// .placeCard {
-//   flex: 0 0 315px;
-//   width: 315px;
-// }
-
-.popularPlaces__sliderTrack {
-  flex-wrap: nowrap; // чтобы они не переносились
+.sliderPlaces__sliderTrack {
+  flex-wrap: nowrap; 
 }
 
 .placeCard {

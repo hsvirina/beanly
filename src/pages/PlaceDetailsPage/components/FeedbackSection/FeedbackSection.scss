@@ -1,0 +1,36 @@
+.feedbackSection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+}
+
+.feedbackSection__buttons {
+  display: flex;
+  gap: 16px;
+}
+
+.feedbackSection__button {
+  display: flex;
+  padding: 12px 24px;
+  border-radius: 40px;
+  gap: 12px;
+  border-color: var(--color-primary);
+  background-color: transparent;
+  color: var(--color-primary);
+  cursor: pointer;
+}
+
+.feedbackSection__button--blue {
+  border: none;
+  background-color: var(--color-primary);
+  color: var(--color-white);
+}
+
+
+
+.feedbackSection__icon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
