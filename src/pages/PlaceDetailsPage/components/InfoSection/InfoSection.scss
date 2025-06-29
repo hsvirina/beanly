@@ -1,0 +1,40 @@
+@use '../../../../styles/utils/mixins.scss' as mixins;
+
+
+.infoSection {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.infoSection-container {
+  @include mixins.page-grid;
+
+  grid-column: 1 / -1;
+}
+
+.infoSection-block {
+  grid-column: span 2;
+
+  height: 72px;
+  display: flex;
+  width: 100%;
+  background-color: var(--color-bg-2);
+  border-radius: 40px;
+  align-items: center;
+  padding: 12px 24px;
+  box-sizing: border-box;
+  gap: 24px;
+}
+
+.infoSection-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.infoSection-icon {
+  width: 20px;
+  height: 26px;
+  object-fit: contain;
+}

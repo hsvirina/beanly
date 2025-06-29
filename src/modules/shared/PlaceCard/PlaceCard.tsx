@@ -1,5 +1,6 @@
 import React from 'react';
 import './PlaceCard.scss';
+import { Link } from 'react-router-dom';
 
 interface Place {
   id: number;
@@ -17,18 +18,18 @@ interface Place {
 
 export const PlaceCard: React.FC<{ place: Place }> = ({ place }) => {
   return (
-    <div className="placeCard">
+    <Link to={`/catalog/${place.id}`} className="placeCard">
       <img src={`./img/1/1.jpg`} alt="Place Image" className="placeCard__image" />
       <div className="placeCard__info">
         <div className="placeCard__header">
           <h5 className="placeCard__title">{place.name}</h5>
           <div className="placeCard__rating">
-            <span className="placeCard__rating-count">{place.rating}</span>
-            <span className="placeCard__rating-star">⭐️</span>
+            <span className="placeCard__rating-count body-font-1">{place.rating}</span>
+            <img src="./icons/star.png" alt="Star rating" className="placeCard__rating-star" />
           </div>
         </div>
 
-        <span className="placeCard__description">
+        <span className="placeCard__description body-font-1">
           {place.descriptionShort}
         </span>
 
@@ -36,18 +37,23 @@ export const PlaceCard: React.FC<{ place: Place }> = ({ place }) => {
 
         <div className="placeCard__tags">
           {place.tags.map((tag, index) => (
-            <span key={index} className="placeCard__tag">{tag}</span>
+            <span key={index} className="placeCard__tag body-font-2">{tag}</span>
           ))}
         </div>
 
         <div className="placeCard__footer">
           <div className="placeCard__location">
-            <span className="placeCard__location-icon">📍</span>
-            <span className="placeCard__address">{place.address}</span>
+            <img
+              src={`./icons/location.png`}
+              alt="Location Icon"
+              className="placeCard__location-icon"
+            />
+            <span className="placeCard__address body-font-1">{place.address}</span>
           </div>
           <img src="./icons/arrow-down-right.svg" alt="Icon Arrow Down Right" className="placeCard__icon" />
-        </div>        
+          {/* <img src="https://i.postimg.cc/3wXN5JDw/5341732430870084417.jpg" alt="Icon Arrow Down Right" className="placeCard__icon" /> */}
+        </div>
       </div>
-    </div>
+    </Link>
   );
 };

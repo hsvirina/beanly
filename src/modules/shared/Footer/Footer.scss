@@ -1,0 +1,82 @@
+.footer {
+  height: 368px;
+  background-color: var(--color-secondary);
+  box-sizing: border-box;
+  padding: 60px;
+  display: flex;
+  gap: 128px;
+}
+
+.footer__logo {
+  width: 165px;
+  height: 32px;
+}
+
+.footer__links {
+  flex-grow: 1; /* займет оставшуюся ширину после 400px subscribe */
+  display: flex;
+  justify-content: space-between;
+  height: 180px; /* фиксируем высоту для внутренних контейнеров */
+}
+
+.footer__links-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* распределяет ссылки равномерно по высоте */
+  height: 100%; /* 180px */
+}
+
+.footer__link {
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.footer__subscribe {
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.footer__subscribe-top {
+  display: flex;  
+  flex-direction: column;
+  gap: 16px;
+}
+
+.footer__subscribe-bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footer__subscribe-form {
+  height: 48px;
+  display: flex;
+  gap: 16px;
+}
+
+.footer__subscribe-input {
+  flex: 1; // займёт всё оставшееся пространство
+  border: none;
+  border-bottom: 1px solid var(--color-gray-75);
+  background-color: transparent;
+  padding: 12px; // немного внутреннего отступа по горизонтали
+  outline: none;
+}
+
+.footer__subscribe-button {
+ box-sizing: border-box;
+  height: 100%;
+  width: 96px;
+  padding: 12px 24px;
+  background-color: transparent;
+  border: 1px solid var(--color-primary);
+  border-radius: 40px;
+  color: var(--color-primary);
+
+  display: flex;
+  align-items: center;
+  justify-content: center; // центр по горизонтали
+}

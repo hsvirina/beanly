@@ -1,14 +1,48 @@
 .header {
-  height: 64px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 72px;
 }
 
 .header__logo {
   width: 165px;
   height: 32px;
+}
+
+.header__search-container {
+  max-width: 488px;
+  height: 40px;
+  box-sizing: border-box;
+  padding: 8px 12px;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  background-color: var(--color-white);
+  border: none;
+  border-radius: 40px;
+
+  flex-grow: 1;
+}
+
+.header__search-icon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.header__search-input {
+  border: none;
+  outline: none;
+  background: transparent;
+  flex-grow: 1;
+
+  &::placeholder {
+    color: var(--color-gray-75);
+  }
 }
 
 .header__menu {
@@ -23,6 +57,8 @@
   display: flex;
   align-items: center;
   gap: 4px;
+  text-decoration: none;
+  color: var(--color-gray-100);
 }
 
 .header__dropdown {
@@ -33,10 +69,70 @@
   position: absolute;
   top: 100%;
   left: 0;
+  background-color: var(--color-white);
+  padding: 8px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); // немного тени для читаемости
+  z-index: 10;
+  width: auto;;
+
+  // Стили для пунктов в меню
+  div {
+    cursor: pointer;
+    color: var(--color-gray-100);
+    padding: 8px;
+    border-radius: 4px;
+
+    &:hover {
+      background-color: var(--color-gray-10);
+    }
+  }
 }
 
 .header__chevron {
   width: 24px;
   height: 24px;
   object-fit: contain;
+}
+
+.header__dropdown-menu--login {
+  top: calc(100% + 8px);
+  left: auto;
+  right: 0;
+  background: white;
+  border: 1px solid var(--color-gray-20);
+  border-radius: 8px;
+  padding: 12px;
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+.header__login-form input {
+  padding: 8px;
+  border: 1px solid var(--color-gray-40);
+  border-radius: 4px;
+}
+
+.header__login-btn,
+.header__logout-btn {
+  padding: 8px;
+  background-color: var(--color-primary);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.header__avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
 }

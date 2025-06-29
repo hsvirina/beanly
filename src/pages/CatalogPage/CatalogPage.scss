@@ -1,0 +1,114 @@
+@use '../../styles/utils/mixins' as mixins;
+
+.catalogPage {
+  @include mixins.page-grid
+}
+
+.catalogPage__title {
+  grid-column: 1 / -1;
+  margin-block: 80px 60px;
+  text-align: center;
+}
+
+.catalogPage__filters {
+  grid-column: 1 / 3;
+
+  display: flex;
+  flex-direction: column;
+  align-self: start;
+
+  border: 1px solid var(--color-gray-10);
+  background-color: var(--color-white);
+  border-radius: 40px;
+  padding: 24px;
+  gap: 24px;
+}
+
+.catalogPage__filters-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.catalogPage__filter {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.catalogPage__filter-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.catalogPage__filter-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  user-select: none;
+
+  input[type="checkbox"] {
+    display: none;
+  }
+}
+
+.catalogPage__checkbox-box {
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--color-gray-20);
+  border-radius: 8px;
+  background-color: transparent;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.catalogPage__filter-option input[type="checkbox"]:checked + .catalogPage__checkbox-box {
+  background-color: transparent; // остаётся прозрачным
+  border-color: var(--color-primary);
+}
+
+.catalogPage__checkbox-box::after {
+  content: "";
+  position: absolute;
+  top: 6px;
+  left: 10px;
+  width: 8px;
+  height: 14px;
+  border: solid var(--color-primary); // <- цвет галочки
+  border-width: 0 3px 3px 0;
+  opacity: 0;
+  transform: rotate(45deg);
+  transition: opacity 0.2s ease;
+}
+
+.catalogPage__filter-option input[type="checkbox"]:checked + .catalogPage__checkbox-box::after {
+  opacity: 1;
+}
+
+.catalogPage__apply-button {
+  height: 48px;
+  padding: 12px 24px;
+  border: none;
+  background-color: var(--color-primary);
+  color: white;
+  border-radius: 40px;
+  cursor: pointer;
+}
+
+.catalogPage__places {
+  grid-column: 3 / -1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.catalogPage__filter-divider {
+  height: 1px;
+  background-color: var(--color-gray-20); // или другой цвет, по твоему дизайну
+  // margin: 16px 0; // отступы сверху и снизу, если нужно
+}

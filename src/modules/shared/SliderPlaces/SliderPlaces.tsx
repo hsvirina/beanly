@@ -1,6 +1,11 @@
 import { useState } from 'react';
-import { PlaceCard } from '../../../../modules/shared/PlaceCard';
-import './PopularPlaces.scss';
+import './SliderPlaces.scss';
+import { PlaceCard } from '../PlaceCard';
+
+type Props = {
+  title: string;
+};
+
 
 const places = Array.from({ length: 10 }, (_, i) => ({
   id: i + 1,
@@ -16,7 +21,7 @@ const places = Array.from({ length: 10 }, (_, i) => ({
   tags: ['Work-friendly', 'Specialty coffee', 'Cozy vibe', 'Brunch & snacks'],
 }));
 
-export const PopularPlaces: React.FC = () => {
+export const SliderPlaces: React.FC<Props> = ({ title }) => {
   const [startIndex, setStartIndex] = useState(0);
   const visibleCount = 4;
 
@@ -29,8 +34,8 @@ export const PopularPlaces: React.FC = () => {
     setStartIndex((i) => Math.min(i + 1, places.length - visibleCount));
 
   return (
-    <div className="popularPlaces">
-      <div className="popularPlaces__header">
+    <div className="sliderPlaces">
+      <div className="sliderPlaces__header">
         <img
           src="./icons/arrow-left.svg"
           alt="Icon Arrow Left"
@@ -41,7 +46,7 @@ export const PopularPlaces: React.FC = () => {
             opacity: startIndex === 0 ? 0.5 : 1,
           }}
         />
-        <h3 className="popularPlaces__title">Popular Places</h3>
+        <h3 className="sliderPlaces__title">{title}</h3>
         <img
           src="./icons/arrow-right.svg"
           alt="Icon Arrow Right"
@@ -58,9 +63,9 @@ export const PopularPlaces: React.FC = () => {
         />
       </div>
 
-      <div className="popularPlaces__sliders">
+      <div className="sliderPlaces__sliders">
         <div
-          className="popularPlaces__sliderTrack"
+          className="sliderPlaces__sliderTrack"
           style={{
             transform: `translateX(-${shift}px)`
           }}
