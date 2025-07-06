@@ -1,9 +1,6 @@
+import React, { useState, useEffect, useRef } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import "./Header.scss";
-import "../../../styles/utils/_fonts.scss";
-
-import { useState, useEffect, useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useLocation } from "react-router-dom";
 
 type User = {
   email: string;
@@ -11,70 +8,36 @@ type User = {
 };
 
 export const Header: React.FC = () => {
-  const [city, setCity] = useState<'Kyiv' | 'Lviv'>('Kyiv');
-  const [language, setLanguage] = useState<'ENG' | 'UKR'>('ENG');
-  const [activeDropdown, setActiveDropdown] = useState<'city' | 'lang' | 'login' | null>(null);
+  const [city, setCity] = useState<"Kyiv" | "Lviv">("Kyiv");
+  const [language, setLanguage] = useState<"ENG" | "UKR">("ENG");
+  const [activeDropdown, setActiveDropdown] = useState<"city" | "lang" | null>(null);
   const [user, setUser] = useState<User | null>(null);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
 
   const navigate = useNavigate();
-
+  const location = useLocation();
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const location = useLocation();
+  // Закрываем остальные dropdown’ы при смене роута
+  useEffect(() => setActiveDropdown(null), [location.pathname]);
 
+  // Восстанавливаем user из localStorage
   useEffect(() => {
-    // Закрывает дропдауны при смене маршрута
-    setActiveDropdown(null);
-  }, [location.pathname]);
-
-  useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) setUser(JSON.parse(storedUser));
-
-    const handleClickOutside = (e: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
-        setActiveDropdown(null);
-      }
-    };
-
-    document.addEventListener("click", handleClickOutside);
-    return () => document.removeEventListener("click", handleClickOutside);
+    const stored = localStorage.getItem("user");
+    if (stored) setUser(JSON.parse(stored));
   }, []);
 
-  const handleLogin = () => {
-    if (email.trim() === '123@gmail.com' && password.trim() === '123') {
-      const loggedInUser = {
-        email,
-        photoUrl: './profile-photo.jpg', // можно заменить на реальную ссылку
-      };
-      localStorage.setItem('user', JSON.stringify(loggedInUser));
-      setUser(loggedInUser);
-      setActiveDropdown(null);
-      navigate('/profile');
-    } else {
-      alert('Invalid credentials');
-    }
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem('user');
-    setUser(null);
-  };
+  // Выпадающие списки города/языка
+  const toggle = (name: "city" | "lang") =>
+    setActiveDropdown(activeDropdown === name ? null : name);
 
   return (
     <div className="header" ref={dropdownRef}>
       <Link to="/" className="header__logo-container">
-        <img src="logo.svg" alt="beanly" className="header__logo" />
+        <img src="./logo.svg" alt="beanly" className="header__logo" />
       </Link>
 
       <div className="header__search-container">
-        <img
-          src="./icons/search-dark.svg"
-          className="header__search-icon"
-          alt="search-button"
-        />
+        <img src="./icons/search-dark.svg" alt="search" className="header__search-icon" />
         <input
           type="text"
           placeholder="Search cafés or areas…"
@@ -83,93 +46,57 @@ export const Header: React.FC = () => {
       </div>
 
       <div className="header__menu">
-        <Link to="/catalog" className="header__menu-item menu-text-font">Catalog</Link>
+        <Link to="/catalog" className="header__menu-item menu-text-font">
+          Catalog
+        </Link>
 
-        {/* City Dropdown */}
+        {/* City dropdown */}
         <div className="header__dropdown">
           <div
             className="header__menu-item menu-text-font"
-            onClick={() => setActiveDropdown(activeDropdown === 'city' ? null : 'city')}
+            onClick={() => toggle("city")}
           >
             {city}
-            <img src="./icons/chevron-down.svg" className="header__chevron" alt="chevron-down" />
+            <img src="./icons/chevron-down.svg" alt="" className="header__chevron" />
           </div>
-          {activeDropdown === 'city' && (
+          {activeDropdown === "city" && (
             <div className="header__dropdown-menu">
-              <div onClick={() => { setCity('Kyiv'); setActiveDropdown(null); }}>Kyiv</div>
-              <div onClick={() => { setCity('Lviv'); setActiveDropdown(null); }}>Lviv</div>
+              <div onClick={() => { setCity("Kyiv"); setActiveDropdown(null); }}>Kyiv</div>
+              <div onClick={() => { setCity("Lviv"); setActiveDropdown(null); }}>Lviv</div>
             </div>
           )}
         </div>
 
-        {/* Language Dropdown */}
-        <div className="header__dropdown menu-text-font">
+        {/* Language dropdown */}
+        <div className="header__dropdown">
           <div
-            className="header__menu-item"
-            onClick={() => setActiveDropdown(activeDropdown === 'lang' ? null : 'lang')}
+            className="header__menu-item menu-text-font"
+            onClick={() => toggle("lang")}
           >
             {language}
-            <img src="./icons/chevron-down.svg" className="header__chevron" alt="chevron-down" />
+            <img src="./icons/chevron-down.svg" alt="" className="header__chevron" />
           </div>
-          {activeDropdown === 'lang' && (
+          {activeDropdown === "lang" && (
             <div className="header__dropdown-menu">
-              <div onClick={() => { setLanguage('ENG'); setActiveDropdown(null); }}>ENG</div>
-              <div onClick={() => { setLanguage('UKR'); setActiveDropdown(null); }}>UKR</div>
+              <div onClick={() => { setLanguage("ENG"); setActiveDropdown(null); }}>ENG</div>
+              <div onClick={() => { setLanguage("UKR"); setActiveDropdown(null); }}>UKR</div>
             </div>
           )}
         </div>
 
-        {/* Login or User Avatar */}
-        <div className="header__dropdown menu-text-font">
-          <div
-            className="header__menu-item"
-            onClick={() => setActiveDropdown(activeDropdown === 'login' ? null : 'login')}
+        {/* Log in / Profile */}
+        {user ? (
+          <Link to="/profile" className="header__menu-item menu-text-font">
+            <img src={user.photoUrl} alt="avatar" className="header__avatar" />
+          </Link>
+        ) : (
+          <button
+            className="header__menu-item menu-text-font header__login-button"
+            onClick={() => navigate("/auth")}
           >
-            {user ? (
-              <img
-                src={user.photoUrl}
-                alt="User avatar"
-                className="header__avatar"
-              />
-            ) : (
-              <>
-                Log in
-                <img src="./icons/user-profile.svg" className="header__chevron" alt="user-profile" />
-              </>
-            )}
-          </div>
-
-          {activeDropdown === 'login' && (
-            <div className="header__dropdown-menu header__dropdown-menu--login menu-text-font">
-              {user ? (
-                <>
-                  <Link to="/profile" onClick={() => setActiveDropdown(null)} className="header__dropdown-link">
-                    Profile
-                  </Link>
-                  <button onClick={handleLogout} className="header__logout-btn">Logout</button>
-                </>
-              ) : (
-                <div className="header__login-form">
-                  <input
-                    type="email"
-                    placeholder="Email"
-                    value={email}
-                    onChange={e => setEmail(e.target.value)}
-                    className="header__login-input"
-                  />
-                  <input
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={e => setPassword(e.target.value)}
-                    className="header__login-input"
-                  />
-                  <button onClick={handleLogin} className="header__login-btn">Log in</button>
-                </div>
-              )}
-            </div>
-          )}
-        </div>
+            Log in
+          </button>
+        )}
       </div>
     </div>
   );

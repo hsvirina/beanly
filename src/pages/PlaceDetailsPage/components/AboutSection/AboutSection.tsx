@@ -1,29 +1,9 @@
 import React from 'react';
 import './AboutSection.scss';
+import type { Cafe } from '../../../../types/Cafe';
 
-export interface Review {
-  userName: string;
-  starCount: number;
-  text: string;
-}
-
-export interface Place {
-  id: string;
-  name: string;
-  rating: number;
-  reviewsCount: number;
-  city: string;
-  address: string;
-  workSchedule: string;
-  descriptionShort: string;
-  descriptionFull: string;
-  reviews: Review[];
-  tags: string[];
-}
-
-// Тип пропсов — у компонента ровно один проп `place`
 interface Props {
-  place: Place;
+  place: Cafe;
 }
 
 export const AboutSection: React.FC<Props> = ({ place }) => {

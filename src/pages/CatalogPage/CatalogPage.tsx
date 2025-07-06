@@ -1,21 +1,13 @@
 import { PlaceCard } from '../../modules/shared/PlaceCard';
 import './CatalogPage.scss';
+import type { Cafe } from '../../types/Cafe';
+import { useContext } from 'react';
+import { GlobalContext } from '../../store/GlobalContext';
 
-const places = Array.from({ length: 10 }, (_, i) => ({
-  id: i + 1,
-  name: `Place ${i + 1}`,
-  rating: 4.6,
-  reviewsCount: 330,
-  city: 'Kyiv',
-  address: '18/1, Prorizna Street, Kyiv',
-  workSchedule: 'Mon–Sun 08:00–20:00',
-  descriptionShort: 'A cozy spot with big windows, specialty coffee, and homemade pastries — perfect for work sessions or slow mornings with a book.',
-  descriptionFull: 'Our café is a warm and welcoming space where quality coffee meets calm atmosphere...',
-  review: 'Very nice place...',
-  tags: ['Work-friendly', 'Specialty coffee', 'Cozy vibe', 'Brunch & snacks'],
-}));
 
 export const CatalogPage: React.FC = () => {
+  const { cafes } = useContext(GlobalContext);
+
   return (
     <div className="catalogPage">
       <h2 className="catalogPage__title">Best Places to Sip & Chill</h2>
@@ -139,8 +131,8 @@ export const CatalogPage: React.FC = () => {
       </div>
 
       <div className="catalogPage__places">
-        {places.map((place) => (
-          <PlaceCard key={place.id} place={place} />
+        {cafes.map((cafe: Cafe) => (
+          <PlaceCard key={cafe.id} place={cafe} />
         ))}
       </div>
     </div>
