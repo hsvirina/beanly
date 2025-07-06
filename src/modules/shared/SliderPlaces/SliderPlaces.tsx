@@ -1,31 +1,18 @@
 import { useState } from 'react';
 import './SliderPlaces.scss';
 import { PlaceCard } from '../PlaceCard';
+import type { Cafe } from '../../../types/Cafe';
 
 type Props = {
   title: string;
+  places: Cafe[];
 };
 
-
-const places = Array.from({ length: 10 }, (_, i) => ({
-  id: i + 1,
-  name: `Place ${i + 1}`,
-  rating: 4.6,
-  reviewsCount: 330,
-  city: 'Kyiv',
-  address: '18/1, Prorizna Street, Kyiv',
-  workSchedule: 'Mon–Sun 08:00–20:00',
-  descriptionShort: 'A cozy spot with big windows, specialty coffee, and homemade pastries — perfect for work sessions or slow mornings with a book.',
-  descriptionFull: 'Our café is a warm and welcoming space where quality coffee meets calm atmosphere...',
-  review: 'Very nice place...',
-  tags: ['Work-friendly', 'Specialty coffee', 'Cozy vibe', 'Brunch & snacks'],
-}));
-
-export const SliderPlaces: React.FC<Props> = ({ title }) => {
+export const SliderPlaces: React.FC<Props> = ({ places, title }) => {
   const [startIndex, setStartIndex] = useState(0);
   const visibleCount = 4;
 
-  const CARD_WIDTH = 315;  // например, 270px
+  const CARD_WIDTH = 315;
   const GAP = 20;
   const shift = startIndex * (CARD_WIDTH + GAP);
 

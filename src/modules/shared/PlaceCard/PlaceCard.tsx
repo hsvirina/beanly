@@ -1,25 +1,16 @@
 import React from 'react';
 import './PlaceCard.scss';
 import { Link } from 'react-router-dom';
+import type { Cafe } from '../../../types/Cafe';
 
-interface Place {
-  id: number;
-  name: string;
-  rating: number;
-  reviewsCount: number;
-  city: string;
-  address: string;
-  workSchedule: string;
-  descriptionShort: string;
-  descriptionFull: string;
-  review: string;
-  tags: string[];
+type Props = {
+  place: Cafe,
 }
 
-export const PlaceCard: React.FC<{ place: Place }> = ({ place }) => {
+export const PlaceCard: React.FC<Props> = ({ place }) => {
   return (
     <Link to={`/catalog/${place.id}`} className="placeCard">
-      <img src={`./img/1/1.jpg`} alt="Place Image" className="placeCard__image" />
+      <img src={place.photoUrls[0]} alt="Place Image" className="placeCard__image" />
       <div className="placeCard__info">
         <div className="placeCard__header">
           <h5 className="placeCard__title">{place.name}</h5>
@@ -30,7 +21,7 @@ export const PlaceCard: React.FC<{ place: Place }> = ({ place }) => {
         </div>
 
         <span className="placeCard__description body-font-1">
-          {place.descriptionShort}
+          {place.shortDescription}
         </span>
 
         <div className="placeCard__divider"></div>
@@ -51,7 +42,6 @@ export const PlaceCard: React.FC<{ place: Place }> = ({ place }) => {
             <span className="placeCard__address body-font-1">{place.address}</span>
           </div>
           <img src="./icons/arrow-down-right.svg" alt="Icon Arrow Down Right" className="placeCard__icon" />
-          {/* <img src="https://i.postimg.cc/3wXN5JDw/5341732430870084417.jpg" alt="Icon Arrow Down Right" className="placeCard__icon" /> */}
         </div>
       </div>
     </Link>

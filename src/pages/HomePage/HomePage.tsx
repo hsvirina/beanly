@@ -1,9 +1,15 @@
+import { useContext } from 'react';
 import { SliderPlaces } from '../../modules/shared/SliderPlaces/SliderPlaces';
 import { FilterBar } from './components/FilterBar';
 import { WelcomeBlock } from './components/WelcomeBlock';
 import './HomePage.scss';
+import { GlobalContext } from '../../store/GlobalContext';
 
 export const HomePage: React.FC = () => {
+  const { cafes } = useContext(GlobalContext);
+
+  const popularCafes = [...cafes].sort((a, b) => b.rating - a.rating);
+
   return (
     <div className="homepage">
       <h1 className="homePage__title">
@@ -11,11 +17,11 @@ export const HomePage: React.FC = () => {
       </h1>
       <FilterBar />
 
-      <SliderPlaces title='Coffee Places You’ll Love' />
+      <SliderPlaces places={cafes} title='Coffee Places You’ll Love' />
 
       <WelcomeBlock />
 
-      <SliderPlaces title='Most Popular' />
+      <SliderPlaces places={popularCafes} title="Most Popular" />
     </div>
   )
 };
