@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 
 import { Place } from '../../shared/models/place.model';
 import { API_ENDPOINTS } from '../../environments/api-endpoints';

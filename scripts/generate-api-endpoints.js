@@ -1,3 +1,8 @@
+/**
+ * Script to generate API endpoints file for Angular.
+ */
+
+require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
 
@@ -30,7 +35,9 @@ export const API_ENDPOINTS = {
 `;
 
 const outPath = path.resolve(__dirname, '../src/app/environments/api-endpoints.ts');
+
 fs.mkdirSync(path.dirname(outPath), { recursive: true });
+
 fs.writeFileSync(outPath, content, 'utf8');
 
 console.log('✅ Generated API endpoints to', outPath);
