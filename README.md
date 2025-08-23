@@ -22,7 +22,7 @@ That’s why we built **beanly**:
 - Enriched with **social features** — statuses, achievements, badges.  
 - Designed to **motivate exploration** through gamification.  
 
-> **Our mission:** make finding your perfect café as easy and inspiring as ordering your favorite coffee.  
+**Our mission:** make finding your perfect café as easy and inspiring as ordering your favorite coffee.  
 
 ---
 
@@ -104,6 +104,7 @@ src/
 ├─ index.html
 ├─ main.ts
 └─ polyfills.ts
+
 
 
 
