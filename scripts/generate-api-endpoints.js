@@ -20,7 +20,7 @@ export const API_ENDPOINTS = {
     me: \`\${API_BASE_URL}/users/me\`,
     settings: \`\${API_BASE_URL}/users/settings\`,
     favorites: \`\${API_BASE_URL}/users/me/favorites\`,
-    publicProfile: (userId) => \`\${API_BASE_URL}/users/public/\${userId}\`,
+    publicProfile: (userId: number) => \`\${API_BASE_URL}/users/public/\${userId}\`,
   },
   reviews: { base: \`\${API_BASE_URL}/reviews\` },
   checkins: { base: \`\${API_BASE_URL}/checkins\` },

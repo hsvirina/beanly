@@ -1,4 +1,10 @@
+/**
+ * This file is auto-generated at build time.
+ * Do NOT edit manually.
+ */
+
 export const API_BASE_URL = 'http://localhost:4200/api';
+
 export const API_ENDPOINTS = {
   places: { list: `${API_BASE_URL}/cafes` },
   auth: {
