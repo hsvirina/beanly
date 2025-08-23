@@ -1,5 +1,5 @@
 <p>
-  <img src="./src/assets/logo.svg" alt="Logo" width="240"/>
+  <img src="./src/assets/logo.svg" alt="Logo" width="160"/>
 </p>
 
 **beanly** is more than a café catalog — it’s a vibrant community of coffee lovers.  
@@ -104,5 +104,6 @@ src/
 ├─ index.html
 ├─ main.ts
 └─ polyfills.ts
+
 
 
