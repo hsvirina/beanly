@@ -1,46 +1,77 @@
-# beanly
+# ☕ beanly — Discover & Explore Cafés  
 
-A modern, user-friendly web service to help people discover cafes based on vibes, amenities, or purpose — whether for work, relaxation, or grabbing coffee on the go. Designed for a young urban audience with a clean, visual interface.
-
-!Платформа для любителей кофе: поиск кофеен, чекины, отзывы, избранное и ачивки!  
-![Achievement](https://img.icons8.com/emoji/48/000000/trophy-emoji.png) Собирай ачивки и открывай рамки профиля: Bronze, Silver, Gold  
-![Check-in](https://img.icons8.com/emoji/48/000000/check-mark-emoji.png) Чекины в любимых кафе, лайки и популярные отзывы  
+**beanly** is more than a café catalog — it’s a vibrant community of coffee lovers.  
+Whether you’re searching for a cozy spot to work, a lively place to meet friends, or simply the best coffee in town, beanly helps you discover cafés by **vibe, amenities, and atmosphere**.  
 
 ---
 
-## ✨ Features
+## ✨ Why beanly?
 
-- Search and filter cafes by vibe, amenities, or purpose (work, relax, coffee on the go)  
-- Add cafes to favourites for easy access  
-- Responsive design for desktop and mobile  
-- Visual, modern interface tailored for young urban users  
-- Persistent data using `localStorage` for favourites  
-- **Доступность:** ARIA-метки для ачивок и рамок профиля  
+Finding the right café isn’t always easy:  
 
----
+- Information is scattered across Google Maps, blogs, and social media.  
+- Ratings alone don’t reflect the **real experience**.  
+- People care about the **vibe** — music, design, crowd, and atmosphere.  
 
-## 🚀 Функционал
+That’s why we built **beanly**:  
 
-- Просмотр кофеен с рейтингом, фотографиями, адресом и описанием  
-- Добавление кофейни в избранное  
-- Чекины и отзывы зарегистрированных пользователей  
-- Лайки для отзывов, сортировка по популярности  
-- Система ачивок и рамок профиля: Bronze, Silver, Gold  
-- Фильтры по категориям и тегам (мультиязычные названия)  
+- A unified **café discovery platform**.  
+- Powered by **real reviews and check-ins** from the community.  
+- Enriched with **social features** — statuses, achievements, badges.  
+- Designed to **motivate exploration** through gamification.  
+
+> **Our mission:** make finding your perfect café as easy and inspiring as ordering your favorite coffee.  
 
 ---
 
-## 🛠️ Tech Stack
+## 🚀 Core Features
+
+- 📍 Browse cafés with **ratings, photos, and details**  
+- ⭐ Save favourites for quick access  
+- 📝 Share **reviews and check-ins** with the community  
+- 👍 Like & sort reviews by popularity  
+- 🏆 Unlock **achievements** (Bronze, Silver, Gold) and profile badges  
+- 🎭 Express yourself with **statuses**  
+- 🌍 **Multilingual support** — available in multiple languages  
+- 🌙 **Light/Dark mode** for personalization  
+- 📱 Fully **responsive design** — mobile & desktop  
+- 👤 **User accounts & profiles** — private and public  
+- 🔗 Share cafés easily with friends  
+
+---
+
+## 🎨 Design Philosophy
+
+- Minimal, modern, and **user-friendly** interface  
+- Card-based browsing for quick café exploration  
+- Playful branding with a **friendly identity & logo**  
+- Gamification baked into the user journey  
+
+---
+
+## 🌟 Impact
+
+With beanly, we:  
+
+- Simplify café discovery for different needs (work, relax, coffee-to-go).  
+- Drive user engagement through interactive features.  
+- Build a community centered around **coffee culture**.  
+
+**beanly** is where discovery meets community — and every coffee visit becomes part of your personal story.  
+
+---
+
+## 🛠 Tech Stack  
 [![My Skills](https://skillicons.dev/icons?i=angular,tailwind,ts,html,css,sass,vscode,github,figma)](https://skillicons.dev)
 
-- **Frontend:** Angular 20, TypeScript    
-- **Styling:** SCSS, TailwindCSS, PostCSS, Stylelint    
-- **Routing & Animations:** @angular/router, @angular/animations    
-- **Internationalization:** @ngx-translate/core, @ngx-translate/http-loader    
-- **State / Reactive:** RxJS    
-- **Testing:** Jasmine, Karma    
-- **Deployment:** angular-cli-ghpages    
-- **Code Formatting:** Prettier + Prettier Plugin TailwindCSS
+- **Frontend:** Angular 20, TypeScript  
+- **Styling:** SCSS, TailwindCSS, PostCSS, Stylelint  
+- **Routing & Animations:** @angular/router, @angular/animations  
+- **Internationalization (i18n):** @ngx-translate/core, @ngx-translate/http-loader  
+- **State / Reactive:** RxJS  
+- **Testing:** Jasmine, Karma  
+- **Deployment:** angular-cli-ghpages  
+- **Code Formatting:** Prettier + Prettier Plugin TailwindCSS  
 
 ---
 
@@ -71,3 +102,4 @@ src/
 ├─ index.html
 ├─ main.ts
 └─ polyfills.ts
+
