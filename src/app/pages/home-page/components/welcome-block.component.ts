@@ -1,0 +1,125 @@
+import { Component, HostListener, OnInit } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { ICONS } from '../../../shared/constants/icons.constant';
+import { ThemeService } from '../../../shared/services/theme.service';
+import { Theme } from '../../../shared/models/theme.type';
+import { Observable } from 'rxjs';
+import { AsyncPipe, NgClass } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
+
+@Component({
+  selector: 'app-welcome-block',
+  standalone: true,
+  imports: [RouterModule, NgClass, AsyncPipe, TranslateModule],
+  template: `
+    <div
+      class="max-h:[1074px] xxl:max-h:[530px] mx-auto flex max-w-[1170px] flex-col items-center px-5 lg:flex-row lg:justify-center lg:gap-[24px] lg:px-0 xxl:gap-[120px]"
+      [ngClass]="{
+        'text-[var(--color-white)]': (currentTheme$ | async) === 'dark',
+      }"
+    >
+      <!-- Text Content Section -->
+      <div
+        class="flex flex-col gap-[32px] pt-[60px] lg:pt-12 xxl:max-w-[590px] xxl:px-0 xxl:pt-0"
+      >
+        <div class="flex flex-col gap-[32px]">
+          <div class="flex flex-col gap-[16px]">
+            <!-- Heading with highlighted middle part -->
+            <h3 class="text-[32px] xxl:text-[40px]">
+              {{ 'home_page.welcome_sector.title_part_1' | translate }}
+              <span class="text-[var(--color-primary)]">
+                {{ 'home_page.welcome_sector.title_part_2' | translate }}
+              </span>
+              {{ 'home_page.welcome_sector.title_part_3' | translate }}
+            </h3>
+
+            <!-- Description text, color adapts to theme -->
+            <span
+              class="body-font-1"
+              [ngClass]="{
+                'text-[var(--color-gray-20)]':
+                  (currentTheme$ | async) === 'dark',
+              }"
+            >
+              {{ 'home_page.welcome_sector.description' | translate }}
+            </span>
+          </div>
+
+          <!-- Statistics Section -->
+          <div
+            class="flex flex-col items-center gap-8 lg:flex-row lg:justify-between"
+          >
+            <!-- Individual stat block -->
+            <div
+              class="flex flex-col items-center gap-[8px] p-2 lg:max-w-[163px] lg:items-start"
+            >
+              <h5>80%</h5>
+              <span class="body-font-1">{{
+                'home_page.welcome_sector.statistics.deep_work' | translate
+              }}</span>
+            </div>
+
+            <div
+              class="flex flex-col items-center gap-[8px] p-2 lg:max-w-[163px] lg:items-start"
+            >
+              <h5>65%</h5>
+              <span class="body-font-1">{{
+                'home_page.welcome_sector.statistics.vibe' | translate
+              }}</span>
+            </div>
+
+            <div
+              class="flex flex-col items-center gap-[8px] p-2 lg:max-w-[163px] lg:items-start"
+            >
+              <h5>30%</h5>
+              <span class="body-font-1">{{
+                'home_page.welcome_sector.statistics.return' | translate
+              }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Navigation Button to Catalog -->
+        <a [routerLink]="['/catalog']" class="w-full lg:w-auto">
+          <button class="button-bg-blue button-font flex h-[48px] w-full px-8">
+            {{ 'button.welcome_sector' | translate }}
+          </button>
+        </a>
+      </div>
+
+      <!-- Image Section -->
+      <div
+        class="relative flex h-[530px] overflow-hidden pt-[30px] lg:col-span-4"
+      >
+        <img
+          src="./assets/placeholder-image.png"
+          alt="Placeholder Image"
+          class="h-full w-full object-cover object-top max-lg:w-[calc(100vw-40px)] max-sm:max-w-none xxl:w-[480px]"
+          loading="lazy"
+        />
+      </div>
+    </div>
+  `,
+})
+export class WelcomeBlockComponent implements OnInit {
+  ICONS = ICONS;
+
+  currentTheme$: Observable<Theme>;
+
+  // Store current window width for any responsive logic if needed
+  windowWidth: number = window.innerWidth;
+
+  constructor(private themeService: ThemeService) {
+    this.currentTheme$ = this.themeService.theme$;
+  }
+
+  ngOnInit(): void {
+    this.updateWindowWidth();
+  }
+
+  // Listen to window resize event to update windowWidth property dynamically
+  @HostListener('window:resize')
+  updateWindowWidth(): void {
+    this.windowWidth = window.innerWidth;
+  }
+}

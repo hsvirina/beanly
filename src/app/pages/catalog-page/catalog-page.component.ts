@@ -1,0 +1,462 @@
+import {
+  Component,
+  ElementRef,
+  NgZone,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { Router, ActivatedRoute } from '@angular/router';
+
+import { Observable, Subject, takeUntil } from 'rxjs';
+
+import { Place } from '../../shared/models/place.model';
+import { CatalogFilters } from '../../shared/models/catalog-filter.model';
+import { Theme } from '../../shared/models/theme.type';
+
+import { FILTER_CATEGORIES } from '../../shared/constants/catalog-filter.config';
+import { FILTER_CATEGORIES_UK } from '../../shared/constants/catalog-filter.uk.config';
+import { ICONS } from '../../shared/constants/icons.constant';
+import { PlaceCardType } from '../../shared/constants/place-card-type.enum';
+
+import { slideDownAnimation } from '../../../styles/animations/animations';
+
+import { LoaderService } from '../../shared/services/loader.service';
+import { ThemeService } from '../../shared/services/theme.service';
+import { PlacesStoreService } from '../../shared/services/places-store.service';
+import { CatalogFilterService } from '../../shared/services/catalog-filter.service';
+
+import {
+  TranslateService,
+  LangChangeEvent,
+  TranslateModule,
+} from '@ngx-translate/core';
+
+import { CatalogFiltersComponent } from './components/catalog-filters.components';
+import { BreadcrumbsComponent } from '../../shared/components/breadcrumbs.component';
+import { PaginationComponent } from './components/pagination.component';
+import { IconComponent } from '../../shared/components/icon.component';
+import { PlaceCardComponent } from '../../shared/components/place-card.component';
+import { PageSizeDropdownComponent } from './components/page-size-dropdown.component';
+
+import { paginate } from '../../shared/utils/pagination.util';
+import { ModalComponent } from '../../shared/components/modal.component';
+
+import {
+  LangCode,
+  LanguageService,
+} from '../../shared/services/language.service';
+
+@Component({
+  selector: 'app-catalog-page',
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+    TranslateModule,
+    CatalogFiltersComponent,
+    BreadcrumbsComponent,
+    PaginationComponent,
+    IconComponent,
+    PlaceCardComponent,
+    PageSizeDropdownComponent,
+    ModalComponent,
+  ],
+  animations: [slideDownAnimation],
+  template: `
+    <!--
+  Main container grid with responsive columns and padding.
+  Uses Tailwind-like utility classes for spacing and layout.
+-->
+    <div
+      class="mx-auto grid w-full max-w-[1320px] grid-cols-4 gap-[16px] px-[20px] xxl:grid-cols-8 xxl:gap-[20px] xxl:px-[0px]"
+    >
+      <!-- Breadcrumbs occupy full width -->
+      <div class="col-span-4 xxl:col-span-8">
+        <app-breadcrumbs></app-breadcrumbs>
+      </div>
+
+      <!-- Page title with translation keys and highlighted part -->
+      <h2
+        class="col-span-4 mb-[60px] text-center text-[32px] xxl:col-span-8 xxl:text-[64px]"
+      >
+        {{ 'catalog_page.title' | translate }}
+
+        <ng-container *ngIf="lang$ | async as lang">
+          <span
+            class="text-[var(--color-primary)]"
+            [innerHTML]="
+              lang !== 'en'
+                ? '<br>' + ('catalog_page.highlight' | translate)
+                : ('catalog_page.highlight' | translate)
+            "
+          ></span>
+        </ng-container>
+      </h2>
+
+      <!-- Mobile filter toggle button: visible only on smaller screens -->
+      <div
+        class="col-span-4 mb-[40px] h-[48px] rounded-[40px] border border-[var(--color-gray-20)] xxl:hidden"
+      >
+        <button
+          class="flex h-full w-full items-center justify-center"
+          (click)="toggleFilters()"
+          aria-label="Toggle filters"
+        >
+          {{ 'catalog_page.filters_button' | translate }}
+        </button>
+      </div>
+
+      <!-- Page size dropdown aligned to right -->
+      <div class="col-span-4 xxl:col-span-8">
+        <div class="mb-4 flex justify-end">
+          <app-page-size-dropdown
+            [(selectedValue)]="itemsPerPage"
+            (selectedValueChange)="onPageSizeChange($event)"
+          ></app-page-size-dropdown>
+        </div>
+      </div>
+
+      <!-- Sidebar filters for larger screens only -->
+      <div
+        class="col-span-4 hidden xxl:col-span-2 xxl:block"
+        aria-label="Catalog filters sidebar"
+      >
+        <app-catalog-filters
+          [filters]="filters"
+          [filterCategories]="filterCategories"
+          (filtersChange)="onFiltersChange($event)"
+        ></app-catalog-filters>
+      </div>
+
+      <!-- Mobile filters panel overlay -->
+      <div
+        *ngIf="showFilters"
+        class="fixed left-0 top-0 z-50 h-full w-full xxl:hidden"
+        appClickOutside
+        (click)="toggleFilters()"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="filters-panel-title"
+      >
+        <div
+          #filtersPanel
+          class="relative h-full w-full overflow-y-auto bg-[var(--color-gray-20)] px-[20px] pt-[12px]"
+          (click)="$event.stopPropagation()"
+        >
+          <!-- Close button for filters panel -->
+          <div
+            class="mb-[25px] ml-auto flex h-[40px] w-[40px] items-center justify-center rounded-[40px] bg-white"
+          >
+            <app-icon
+              [icon]="ICONS.Close"
+              class="cursor-pointer"
+              (click)="toggleFilters()"
+              aria-label="Close filters"
+            />
+          </div>
+
+          <!-- Filters component inside mobile panel -->
+          <app-catalog-filters
+            [filters]="filters"
+            [filterCategories]="filterCategories"
+            (filtersChange)="onFiltersChange($event)"
+            (applyFiltersClicked)="toggleFilters()"
+          ></app-catalog-filters>
+        </div>
+      </div>
+
+      <!-- Main catalog cards grid -->
+      <div class="col-span-4 lg:col-span-6" aria-live="polite">
+        <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <app-place-card
+            *ngFor="let place of paginatedPlaces"
+            [place]="place"
+            [cardType]="PlaceCardType.Full"
+            (unauthorizedFavoriteClick)="showLoginModal()"
+          ></app-place-card>
+
+          <!-- Message shown when no results match active filters -->
+          <div
+            *ngIf="paginatedPlaces.length === 0 && hasActiveFilters"
+            class="col-span-full flex flex-col items-center justify-center gap-4 p-12 text-center"
+            role="alert"
+            aria-live="assertive"
+          >
+            <h3>{{ 'catalog_page.no_cafes_found_title' | translate }}</h3>
+            <p class="max-w-sm">
+              {{ 'catalog_page.no_cafes_found_title_desc' | translate }}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pagination controls -->
+      <div
+        class="col-span-4 mt-6 flex flex-col items-center gap-4 lg:col-span-6 xxl:col-span-8 xxl:mb-[148px]"
+      >
+        <app-pagination
+          [totalItems]="filteredPlaces.length"
+          [selectedSize]="itemsPerPage"
+          [currentPage]="currentPage"
+          (pageChange)="onPageChange($event)"
+          aria-label="Catalog pagination"
+        ></app-pagination>
+      </div>
+
+      <!-- Login modal for unauthorized favorites -->
+      <app-modal
+        [isOpen]="isLoginModalVisible"
+        (close)="isLoginModalVisible = false"
+        width="400px"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="login-modal-title"
+      >
+        <div class="flex flex-col items-center gap-3">
+          <h2 id="login-modal-title" class="mb-4 text-xl font-semibold">
+            {{ 'catalog_page.login_modal.title' | translate }}
+          </h2>
+          <p class="mb-6">
+            {{ 'catalog_page.login_modal.description' | translate }}
+          </p>
+          <div class="flex flex-wrap justify-end gap-4">
+            <button
+              class="button-bg-blue min-w-[120px] px-6 py-3"
+              (click)="onLoginClick()"
+              aria-label="Login"
+            >
+              {{ 'catalog_page.login_modal.login_button' | translate }}
+            </button>
+            <button
+              class="button-bg-transparent px-6 py-3"
+              (click)="isLoginModalVisible = false"
+              aria-label="Close"
+            >
+              {{ 'catalog_page.login_modal.login_button' | translate }}
+            </button>
+          </div>
+        </div>
+      </app-modal>
+    </div>
+  `,
+})
+export class CatalogPageComponent implements OnInit, OnDestroy {
+  ICONS = ICONS;
+  PlaceCardType = PlaceCardType;
+
+  @ViewChild('filtersPanel', { static: false }) filtersPanel?: ElementRef;
+
+  // Data properties
+  places: Place[] = [];
+  filteredPlaces: Place[] = [];
+  paginatedPlaces: Place[] = [];
+  filters: CatalogFilters = {};
+  filterCategories = FILTER_CATEGORIES;
+
+  // UI state
+  showFilters = false;
+  isLoginModalVisible = false;
+  itemsPerPage = -1; // -1 means show all items by default
+  currentPage = 1;
+
+  // Observables
+  currentTheme$: Observable<Theme>;
+  lang$: Observable<LangCode>;
+
+  // Internal helpers
+  private destroy$ = new Subject<void>();
+  private updatingFromQueryParams = false;
+
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    public loaderService: LoaderService,
+    private themeService: ThemeService,
+    private languageService: LanguageService,
+    private translate: TranslateService,
+    private placesStore: PlacesStoreService,
+    private catalogFilterService: CatalogFilterService,
+    private ngZone: NgZone,
+  ) {
+    this.currentTheme$ = this.themeService.theme$;
+    this.lang$ = this.languageService.lang$;
+  }
+
+  ngOnInit(): void {
+    this.loaderService.show();
+
+    this.placesStore.loadPlaces();
+
+    this.placesStore.places$.pipe(takeUntil(this.destroy$)).subscribe({
+      next: (data) => {
+        this.places = data || [];
+        this.setFilterCategories(this.translate.currentLang);
+        this.initializeFilters();
+        this.filterAndPaginate();
+
+        this.ngZone.runOutsideAngular(() => {
+          setTimeout(() => {
+            this.ngZone.run(() => {
+              setTimeout(() => this.loaderService.hide(), 300);
+            });
+          }, 0);
+        });
+      },
+      error: (error) => {
+        console.error('Error loading places:', error);
+
+        this.loaderService.hide();
+      },
+    });
+
+    this.route.queryParams
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((params) => {
+        this.loaderService.show();
+
+        if (this.updatingFromQueryParams) {
+          this.updatingFromQueryParams = false;
+        } else {
+          this.initializeFilters();
+          for (const key in params) {
+            if (!this.filters[key]) {
+              this.filters[key] = {};
+            }
+            const values = Array.isArray(params[key])
+              ? params[key]
+              : [params[key]];
+            values.forEach((val) => (this.filters[key][val] = true));
+          }
+        }
+
+        this.filterAndPaginate();
+
+        setTimeout(() => this.loaderService.hide(), 300);
+      });
+
+    this.translate.onLangChange
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((event: LangChangeEvent) => {
+        this.setFilterCategories(event.lang);
+        this.initializeFilters();
+        this.filterAndPaginate();
+      });
+  }
+
+  /**
+   * Handler for filters changes from the child filter component.
+   * Updates internal filters state, syncs URL query params and shows loader.
+   */
+  onFiltersChange(updatedFilters: CatalogFilters): void {
+    this.loaderService.show();
+    this.filters = { ...updatedFilters };
+
+    const queryParams: Record<string, string[]> = {};
+    for (const category in this.filters) {
+      const activeKeys = Object.keys(this.filters[category]).filter(
+        (key) => this.filters[category][key],
+      );
+      if (activeKeys.length) {
+        queryParams[category] = activeKeys;
+      }
+    }
+
+    this.updatingFromQueryParams = true;
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams,
+      queryParamsHandling: '',
+    });
+  }
+
+  /**
+   * Initializes filters object with all filter options set to false.
+   */
+  initializeFilters(): void {
+    this.filters = {};
+    for (const category of this.filterCategories) {
+      this.filters[category.key] = {};
+      for (const option of category.options) {
+        this.filters[category.key][option.key] = false;
+      }
+    }
+  }
+
+  /**
+   * Toggles filter sidebar visibility and controls page scroll locking.
+   */
+  toggleFilters(): void {
+    this.showFilters = !this.showFilters;
+    document.body.style.overflow = this.showFilters ? 'hidden' : '';
+  }
+
+  /**
+   * Sets filter categories depending on the current language.
+   */
+  setFilterCategories(lang: string): void {
+    this.filterCategories =
+      lang === 'uk' ? FILTER_CATEGORIES_UK : FILTER_CATEGORIES;
+  }
+
+  onPageChange(page: number): void {
+    this.currentPage = page;
+    this.updatePaginatedPlaces();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  onPageSizeChange(value: number): void {
+    this.itemsPerPage = value;
+    this.currentPage = 1;
+    this.updatePaginatedPlaces();
+  }
+
+  /**
+   * Applies filters to the places list and updates paginated result.
+   */
+  private filterAndPaginate(): void {
+    this.filteredPlaces = this.catalogFilterService.filterPlaces(
+      this.places,
+      this.filters,
+      this.filterCategories,
+    );
+    this.updatePaginatedPlaces();
+  }
+
+  private updatePaginatedPlaces(): void {
+    this.paginatedPlaces = paginate(
+      this.filteredPlaces,
+      this.currentPage,
+      this.itemsPerPage,
+    );
+  }
+
+  /**
+   * Shows the login modal dialog.
+   */
+  showLoginModal(): void {
+    this.isLoginModalVisible = true;
+  }
+
+  /**
+   * Handler for login button click inside modal.
+   * Navigates user to the login page.
+   */
+  onLoginClick(): void {
+    this.isLoginModalVisible = false;
+    this.router.navigate(['/login']);
+  }
+
+  get hasActiveFilters(): boolean {
+    return Object.values(this.filters).some((category) =>
+      Object.values(category).some((value) => value),
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+}
