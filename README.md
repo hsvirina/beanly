@@ -1,6 +1,6 @@
 # ☕ beanly — Discover & Explore Cafés  
 
-# ![beanly](https://img.shields.io/badge/beanly-1E90FF?style=for-the-badge) is more than a café catalog — it’s a vibrant community of coffee lovers.  
+☕ **beanly** is more than a café catalog — it’s a vibrant community of coffee lovers.  
 Whether you’re searching for a cozy spot to work, a lively place to meet friends, or simply the best coffee in town, beanly helps you discover cafés by **vibe, amenities, and atmosphere**.  
 
 ---
@@ -102,6 +102,7 @@ src/
 ├─ index.html
 ├─ main.ts
 └─ polyfills.ts
+
 
 
 
