@@ -28,17 +28,17 @@ That’s why we built **beanly**:
 
 ## 🚀 Core Features
 
-- 📍 Browse cafés with **ratings, photos, and details**  
-- ⭐ Save favourites for quick access  
-- 📝 Share **reviews and check-ins** with the community  
-- 👍 Like & sort reviews by popularity  
-- 🏆 Unlock **achievements** (Bronze, Silver, Gold) and profile badges  
-- 🎭 Express yourself with **statuses**  
-- 🌍 **Multilingual support** — available in multiple languages  
-- 🌙 **Light/Dark mode** for personalization  
-- 📱 Fully **responsive design** — mobile & desktop  
-- 👤 **User accounts & profiles** — private and public  
-- 🔗 Share cafés easily with friends  
+- Browse cafés with **ratings, photos, and details**  
+- Save favourites for quick access  
+- Share **reviews and check-ins** with the community  
+- Like & sort reviews by popularity  
+- Unlock **achievements** (Bronze, Silver, Gold) and profile badges  
+- Express yourself with **statuses**  
+- **Multilingual support** — available in multiple languages  
+- **Light/Dark mode** for personalization  
+- Fully **responsive design** — mobile & desktop  
+- **User accounts & profiles** — private and public  
+- Share cafés easily with friends  
 
 ---
 
@@ -104,4 +104,5 @@ src/
 ├─ index.html
 ├─ main.ts
 └─ polyfills.ts
+
 
