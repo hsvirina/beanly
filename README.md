@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./src/assets/logo.svg" alt="Logo" width="120"/>
+  <img src="./src/assets/logo.svg" alt="Logo" width="300"/>
 </p>
 
 <h1 align="center">Discover & Explore Cafés</h1>
@@ -106,6 +106,7 @@ src/
 ├─ index.html
 ├─ main.ts
 └─ polyfills.ts
+
 
 
 
