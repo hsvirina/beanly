@@ -7,8 +7,6 @@ Whether you’re searching for a cozy spot to work, a lively place to meet frien
 
 ## Live Site: [beanly](https://beanly.vercel.app)
 
----
-
 ## ✨ Why beanly?
 
 Finding the right café isn’t always easy:  
@@ -106,6 +104,7 @@ src/
 ├─ index.html
 ├─ main.ts
 └─ polyfills.ts
+
 
 
 
