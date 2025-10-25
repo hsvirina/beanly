@@ -142,7 +142,7 @@
     "PASSWORD_PLACEHOLDER": "Enter password",
     "CONFIRM_PASSWORD_LABEL": "Confirm Password",
     "CONFIRM_PASSWORD_PLACEHOLDER": "Enter the password again",
-    "PASSWORD_TOO_WEAK": "Password too weak (minimum 6 characters)",
+    "PASSWORD_TOO_WEAK": "Password too weak (minimum 8 characters, at least one uppercase letter, one number and one special character)",
     "PASSWORD_MISMATCH": "Confirm password mismatch",
     "FIRST_NAME_LABEL": "First Name",
     "FIRST_NAME_PLACEHOLDER": "Enter your first name",

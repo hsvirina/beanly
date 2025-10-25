@@ -31,7 +31,6 @@ import { LastCheckInsComponent } from './components/last-check-ins.components';
   standalone: true,
   imports: [
     CommonModule,
-    NgIf,
     CarouselSectionComponent,
     MainInfoSectionComponent,
     ActionsSectorComponent,

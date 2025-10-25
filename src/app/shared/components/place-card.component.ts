@@ -10,7 +10,7 @@ import {
   NgZone,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { NgClass, AsyncPipe, CommonModule } from '@angular/common';
+import { NgClass, AsyncPipe, CommonModule, NgIf } from '@angular/common';
 import { Place } from '../models/place.model';
 import { PlaceCardType } from '../constants/place-card-type.enum';
 import { IconComponent } from './icon.component';
@@ -29,6 +29,7 @@ import { TranslateModule } from '@ngx-translate/core';
   selector: 'app-place-card',
   standalone: true,
   imports: [
+    NgIf,
     CommonModule,
     NgClass,
     IconComponent,

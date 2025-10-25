@@ -13,7 +13,7 @@ import { AuthEmailStepComponent } from './components/auth-email-step.component';
 import { AuthPasswordStepComponent } from './components/auth-password-step.component';
 import { AuthLoginStepComponent } from './components/auth-login-step.component';
 import { WelcomeModalComponent } from './components/welcome-modal.component';
-import { SocialLoginPlaceholderComponent } from './components/social-login.component';
+import { ModalComponent } from '../../shared/components/modal.component';
 
 @Component({
   selector: 'app-auth-page',
@@ -21,11 +21,11 @@ import { SocialLoginPlaceholderComponent } from './components/social-login.compo
   imports: [
     CommonModule,
     FormsModule,
-    SocialLoginPlaceholderComponent,
     AuthEmailStepComponent,
     AuthPasswordStepComponent,
     AuthLoginStepComponent,
     WelcomeModalComponent,
+    ModalComponent,
   ],
   template: `
     <!-- Main authentication container -->
@@ -81,15 +81,6 @@ import { SocialLoginPlaceholderComponent } from './components/social-login.compo
         </div>
       </div>
 
-      <!-- Social login buttons -->
-      <div class="grid grid-cols-8">
-        <app-social-login
-          (showTemporaryMessage)="showTemporaryMessage()"
-          [showMessage]="showMessage"
-          class="col-span-8 lg:col-span-6 lg:col-start-2 xxl:col-span-4 xxl:col-start-3"
-        ></app-social-login>
-      </div>
-
       <!-- Welcome modal -->
       <div class="grid grid-cols-8">
         <app-welcome-modal
@@ -97,6 +88,25 @@ import { SocialLoginPlaceholderComponent } from './components/social-login.compo
           (close)="closeWelcomeModal()"
         ></app-welcome-modal>
       </div>
+
+      <!-- Error modal -->
+      <app-modal
+        *ngIf="showErrorModal"
+        [isOpen]="showErrorModal"
+        width="480px"
+        (close)="closeErrorModal()"
+      >
+        <div class="text-center">
+          <h2 class="text-xl font-semibold mb-4">Registration Error</h2>
+          <p class="text-base mb-6">{{ errorMessage }}</p>
+          <button
+            class="rounded-2xl bg-[var(--color-primary)] px-5 py-2 text-[var(--color-white)] hover:opacity-90"
+            (click)="closeErrorModal()"
+          >
+            OK
+          </button>
+        </div>
+      </app-modal>
     </div>
   `,
 })
@@ -123,6 +133,10 @@ export class AuthPageComponent {
   showWelcomeModal = false;
   isNewUser = false;
 
+  /** Error modal state */
+  showErrorModal = false;
+  errorMessage = '';
+
   constructor(
     private router: Router,
     private authService: AuthStateService,
@@ -134,12 +148,10 @@ export class AuthPageComponent {
   // STEP NAVIGATION METHODS
   // =========================
 
-  /** Called when email is submitted. Moves to password step. */
   onEmailSubmit(email: string): void {
     this.email = email;
     this.step = 2;
 
-    // Reset password fields and validation
     this.password = '';
     this.repeatPassword = '';
     this.passwordTooWeak = false;
@@ -162,7 +174,6 @@ export class AuthPageComponent {
   // PASSWORD / REGISTRATION
   // =========================
 
-  /** Handles registration with password validation */
   onSubmitPassword(): void {
     this.passwordTooWeak = false;
     this.passwordMismatch = false;
@@ -190,27 +201,41 @@ export class AuthPageComponent {
       });
   }
 
-  /** Performs login immediately after successful registration */
   private loginAfterRegistration(): void {
     this.authService.login(this.email, this.password).subscribe({
       next: () => this.loadUserProfile(true),
       error: (err) =>
-        alert(
-          'Login error after registration: ' + (err.message || err.statusText),
-        ),
+        this.showError('Login error after registration: ' + (err.message || err.statusText)),
     });
   }
 
   private handleRegistrationError(err: any): void {
-    if (
-      err.status === 400 &&
-      err.error?.message?.includes('Email is already taken')
-    ) {
-      alert('This email is already registered. Please login.');
-      this.step = 3;
-    } else {
-      alert('Registration error: ' + (err.message || err.statusText));
-    }
+  console.log('REGISTRATION ERROR:', err);
+
+  const errorMessage =
+    typeof err.error === 'string'
+      ? err.error
+      : err.error?.message || err.message || err.statusText;
+
+  if (err.status === 400 && errorMessage?.toLowerCase().includes('email')) {
+    this.password = '';
+    this.repeatPassword = '';
+
+    this.showError('This email is already registered. Please login.');
+    this.step = 3;
+  } else {
+    this.showError('Registration error: ' + errorMessage);
+  }
+}
+
+  /** Opens error modal with given message */
+  private showError(message: string): void {
+    this.errorMessage = message;
+    this.showErrorModal = true;
+  }
+
+  closeErrorModal(): void {
+    this.showErrorModal = false;
   }
 
   onPasswordChange(password: string): void {
@@ -238,14 +263,16 @@ export class AuthPageComponent {
 
     this.authService.login(this.email, this.password).subscribe({
       next: () => this.loadUserProfile(false),
-      error: (err) => alert('Login error: ' + err.message),
+      error: (err) => this.showError('Login error: ' + err.message),
     });
   }
 
-  /** Loads public user profile and shows welcome modal */
+  // =========================
+  // USER PROFILE LOADING
+  // =========================
+
   private loadUserProfile(isNewUser: boolean): void {
     const userId = this.storageService.getUser()?.userId;
-
     if (!userId) return;
 
     this.userApi.getPublicUserProfile(userId).subscribe({
@@ -255,7 +282,7 @@ export class AuthPageComponent {
         this.showWelcomeModal = true;
       },
       error: (err) => {
-        alert('Failed to load profile: ' + err.message);
+        this.showError('Failed to load profile: ' + err.message);
         this.showWelcomeModal = true;
       },
     });
@@ -270,7 +297,6 @@ export class AuthPageComponent {
     setTimeout(() => (this.showMessage = false), 3000);
   }
 
-  /** Closes the welcome modal and navigates to the intended route */
   closeWelcomeModal(): void {
     this.showWelcomeModal = false;
 

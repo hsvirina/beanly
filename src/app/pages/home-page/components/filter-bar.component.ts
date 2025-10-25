@@ -81,14 +81,19 @@ import { Observable, Subscription } from 'rxjs';
             *ngFor="let category of filterCategories; let i = index"
             class="relative flex h-full flex-1 cursor-pointer flex-col items-center justify-center gap-1 whitespace-nowrap rounded-[40px] text-center transition-colors duration-300"
             [ngClass]="{
-              'text-[var(--color-primary)]': selectedOptions[category.key],
+              
               'bg-[var(--color-white)]':
                 selectedOptions[category.key] &&
                 (currentTheme$ | async) === 'light',
               'bg-[var(--color-bg-card)]':
                 selectedOptions[category.key] &&
                 (currentTheme$ | async) === 'dark',
-              'hover:bg-[var(--color-white)]': !selectedOptions[category.key],
+              'hover:bg-[var(--color-bg-card)]':
+                !selectedOptions[category.key] &&
+                (currentTheme$ | async) === 'dark',
+              'hover:bg-[var(--color-white)]':
+                !selectedOptions[category.key] &&
+                (currentTheme$ | async) === 'light',
             }"
             (click)="toggleDropdown(i)"
             (mouseenter)="handleMouseEnter(i)"

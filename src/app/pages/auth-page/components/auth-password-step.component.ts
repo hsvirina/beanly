@@ -280,9 +280,13 @@ export class AuthPasswordStepComponent {
     this.passwordSubmit.emit();
   }
 
-  // ================== Getters ==================
   get isPasswordTooWeak(): boolean {
-    return this.password.length > 0 && this.password.length < 6;
+    const strongPasswordRegex =
+      /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{8,}$/;
+
+    if (!this.password) return false;
+
+    return !strongPasswordRegex.test(this.password);
   }
 
   get isPasswordMismatch(): boolean {

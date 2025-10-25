@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import {
@@ -7,9 +7,10 @@ import {
   Observable,
   Subject,
   combineLatest,
-  switchMap,
   map,
   startWith,
+  switchMap,
+  shareReplay,
 } from 'rxjs';
 
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -30,6 +31,7 @@ import { ClickOutsideDirective } from '../../../shared/directives/click-outside.
   selector: 'app-search-section',
   standalone: true,
   imports: [
+    NgIf,
     CommonModule,
     FormsModule,
     IconComponent,
@@ -43,7 +45,6 @@ import { ClickOutsideDirective } from '../../../shared/directives/click-outside.
       appClickOutside
       (appClickOutside)="onClickOutside()"
     >
-      <!-- Search icon depending on theme -->
       <app-icon
         [icon]="
           (currentTheme$ | async) === 'dark'
@@ -52,7 +53,6 @@ import { ClickOutsideDirective } from '../../../shared/directives/click-outside.
         "
       ></app-icon>
 
-      <!-- Search input -->
       <input
         type="text"
         placeholder="{{ 'header.search_section.placeholder' | translate }}"
@@ -64,51 +64,46 @@ import { ClickOutsideDirective } from '../../../shared/directives/click-outside.
         [attr.aria-label]="'header.search_section.aria_label' | translate"
       />
 
-      <!-- Suggestions dropdown -->
       <ul
-        *ngIf="
-          searchTerm.trim().length > 0 && (filteredPlaces$ | async) as filtered
-        "
+        *ngIf="searchTerm.trim().length > 0 && (filteredPlaces$ | async) as filtered"
         [@slideDownAnimation]
         class="absolute left-0 top-full z-50 mt-2 max-h-[600px] w-full overflow-auto rounded-[40px] p-2"
         [ngClass]="{
           'bg-[var(--color-white)]': (currentTheme$ | async) === 'light',
           'border border-[var(--color-white)] bg-[var(--color-bg-card)]':
-            (currentTheme$ | async) === 'dark',
+            (currentTheme$ | async) === 'dark'
         }"
         role="listbox"
       >
-        <!-- List of filtered places -->
-        <li
-          *ngFor="let place of filtered"
-          (click)="selectPlace(place)"
-          (keydown.enter)="selectPlace(place)"
-          (keydown.space)="selectPlace(place)"
-          class="flex h-[72px] cursor-pointer items-center gap-3 rounded-[40px] p-2 transition-colors duration-300 hover:bg-[var(--color-bg)]"
-          role="option"
-          tabindex="0"
-        >
-          <img
-            [src]="place.photoUrls[0]"
-            [alt]="place.name"
-            class="h-14 w-14 flex-shrink-0 rounded-full object-cover"
-            width="56"
-            height="56"
-            loading="eager"
-          />
-          <span class="menu-text-font">{{ place.name }}</span>
-        </li>
+        <ng-container *ngIf="filtered.length > 0; else noResults">
+          <li
+            *ngFor="let place of filtered"
+            (click)="selectPlace(place)"
+            (keydown.enter)="selectPlace(place)"
+            (keydown.space)="selectPlace(place)"
+            class="flex h-[72px] cursor-pointer items-center gap-3 rounded-[40px] p-2 transition-colors duration-300 hover:bg-[var(--color-bg)]"
+            role="option"
+            tabindex="0"
+          >
+            <img
+              [src]="place.photoUrls[0]"
+              [alt]="place.name"
+              class="h-14 w-14 flex-shrink-0 rounded-full object-cover"
+              width="56"
+              height="56"
+              loading="eager"
+            />
+            <span class="menu-text-font">{{ place.name }}</span>
+          </li>
+        </ng-container>
 
-        <!-- No results message -->
-        <li
-          *ngIf="filtered.length === 0"
-          class="p-4 text-gray-500"
-          role="alert"
-        >
-          {{
-            'header.search_section.no_results' | translate: { term: searchTerm }
-          }}
-        </li>
+        <ng-template #noResults>
+          <li class="p-4 text-gray-500" role="alert">
+            {{
+              'header.search_section.no_results' | translate: { term: searchTerm }
+            }}
+          </li>
+        </ng-template>
       </ul>
     </div>
   `,
@@ -116,17 +111,12 @@ import { ClickOutsideDirective } from '../../../shared/directives/click-outside.
 export class SearchSectionComponent implements OnDestroy {
   readonly ICONS = ICONS;
 
-  /** Callback to close parent dropdowns */
   @Input() closeDropdowns!: () => void;
 
   searchTerm = '';
-
   private searchTerm$ = new BehaviorSubject<string>('');
 
-  /** Observable with the current theme */
   readonly currentTheme$: Observable<Theme>;
-
-  /** Observable with filtered places according to search term and current language */
   readonly filteredPlaces$: Observable<Place[]>;
 
   private destroy$ = new Subject<void>();
@@ -139,30 +129,25 @@ export class SearchSectionComponent implements OnDestroy {
   ) {
     this.currentTheme$ = this.themeService.theme$;
 
+    const allPlaces$ = this.translateService.onLangChange.pipe(
+      map(event => event.lang),
+      startWith(this.translateService.currentLang),
+      switchMap(lang => this.placesService.getPlaces(lang)),
+      shareReplay(1)
+    );
+
     this.filteredPlaces$ = combineLatest([
-      this.searchTerm$,
-      this.translateService.onLangChange.pipe(
-        map((event) => event.lang),
-        startWith(this.translateService.currentLang),
-      ),
+      allPlaces$,
+      this.searchTerm$
     ]).pipe(
-      switchMap(([term, lang]) =>
-        this.placesService
-          .getPlaces(lang)
-          .pipe(map((places) => this.filterPlaces(places, term))),
-      ),
+      map(([places, term]) => this.filterPlaces(places, term))
     );
   }
 
-  /** Update search term and trigger filtering */
   onSearchChange(): void {
     this.searchTerm$.next(this.searchTerm.trim());
   }
 
-  /**
-   * Handle selection of a place from the dropdown
-   * @param place Selected place
-   */
   selectPlace(place: Place): void {
     this.resetSearch();
     this.router.navigate(['/catalog', place.id]).catch(console.error);
@@ -178,15 +163,8 @@ export class SearchSectionComponent implements OnDestroy {
     this.searchTerm$.next('');
   }
 
-  /**
-   * Filter places based on search term
-   * @param places List of places
-   * @param term Search term
-   * @returns Filtered list (max 5 items)
-   */
   private filterPlaces(places: Place[], term: string): Place[] {
     const lowerTerm = term.toLowerCase();
-
     if (!lowerTerm) return [];
 
     return places
@@ -199,7 +177,6 @@ export class SearchSectionComponent implements OnDestroy {
       .slice(0, 5);
   }
 
-  /** Cleanup subscriptions on destroy */
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();

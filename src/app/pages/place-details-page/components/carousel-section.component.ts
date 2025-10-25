@@ -28,7 +28,7 @@ import { StorageService } from '../../../shared/services/storage.service';
   animations: [fadeInOutImage],
   template: `
     <div
-      class="relative flex h-[550px] touch-pan-y items-center justify-center overflow-hidden"
+      class="relative my-4 xxl:my-0 flex h-[550px] touch-pan-y items-center justify-center overflow-hidden"
       (touchstart)="onTouchStart($event)"
       (touchmove)="onTouchMove($event)"
       (touchend)="onTouchEnd()"

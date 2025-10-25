@@ -59,13 +59,17 @@ import { TranslateModule } from '@ngx-translate/core';
         </div>
       </ng-container>
 
-      <button
-        type="button"
-        (click)="onApplyClick()"
-        class="button-font button-bg-blue h-12 px-6 py-3"
-      >
-        {{ 'catalog_page.filters.apply' | translate }}
-      </button>
+      <div
+    class="sticky bottom-6 left-0 bg-[var(--color-bg-card)]"
+  >
+    <button
+      type="button"
+      (click)="onApplyClick()"
+      class="button-font button-bg-blue h-12 w-full px-6 py-3"
+    >
+      {{ 'catalog_page.filters.apply' | translate }}
+    </button>
+  </div>
     </div>
   `,
 })

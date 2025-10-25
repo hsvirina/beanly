@@ -132,7 +132,7 @@
     "PASSWORD_PLACEHOLDER": "Введіть пароль",
     "CONFIRM_PASSWORD_LABEL": "Підтвердження пароля",
     "CONFIRM_PASSWORD_PLACEHOLDER": "Введіть пароль повторно",
-    "PASSWORD_TOO_WEAK": "Пароль занадто слабкий (мінімум 6 символів)",
+    "PASSWORD_TOO_WEAK": "Пароль занадто слабкий (мінімум 8 символів, щонайменше одна велика літера, одна цифра та один спеціальний символ)",
     "PASSWORD_MISMATCH": "Паролі не співпадають",
     "FIRST_NAME_LABEL": "Ім'я",
     "FIRST_NAME_PLACEHOLDER": "Введіть ваше ім'я",

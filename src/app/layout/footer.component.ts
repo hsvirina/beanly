@@ -37,28 +37,6 @@ import { Observable } from 'rxjs';
         class="flex flex-col gap-10 lg:w-full lg:flex-row lg:justify-between lg:gap-0"
       >
         <app-logo [sizeXxl]="true"></app-logo>
-
-        <div class="flex flex-row gap-4 lg:gap-[80px] xxl:gap-[192px]">
-          <!-- Loop through footer navigation sections -->
-          <div
-            class="body-font-2 flex w-1/2 flex-col gap-1"
-            *ngFor="let section of navigationLinks"
-          >
-            <a
-              *ngFor="let link of section.links"
-              [routerLink]="link.route"
-              class="relative inline-block w-max whitespace-nowrap py-2 leading-none after:absolute after:bottom-0 after:left-0 after:h-[1px] after:w-full after:origin-left after:scale-x-0 after:bg-[var(--color-primary)] after:transition-transform after:duration-300 after:ease-in-out after:content-[''] hover:after:scale-x-100"
-              [ngClass]="{
-                'hover:text-[var(--color-gray-100)]':
-                  (currentTheme$ | async) === 'light',
-                'hover:text-[var(--color-white)]':
-                  (currentTheme$ | async) === 'dark',
-              }"
-            >
-              {{ link.label | translate }}
-            </a>
-          </div>
-        </div>
       </div>
 
       <!-- Right section: Subscription form -->
@@ -151,29 +129,6 @@ export class FooterComponent {
   showError = false;
 
   currentTheme$: Observable<Theme>;
-
-  navigationLinks = [
-    {
-      title: 'footer.links.title_company',
-      links: [
-        { label: 'footer.links.about_us', route: '/' },
-        { label: 'footer.links.faqs', route: '/' },
-        { label: 'footer.links.contact_us', route: '/' },
-        { label: 'footer.links.social_media', route: '/' },
-        { label: 'footer.links.feedback', route: '/' },
-      ],
-    },
-    {
-      title: 'footer.links.title_resources',
-      links: [
-        { label: 'footer.links.newsletter', route: '/' },
-        { label: 'footer.links.updates', route: '/' },
-        { label: 'footer.links.events', route: '/' },
-        { label: 'footer.links.blog_posts', route: '/' },
-        { label: 'footer.links.community', route: '/' },
-      ],
-    },
-  ];
 
   constructor(private themeService: ThemeService) {
     this.currentTheme$ = this.themeService.theme$;

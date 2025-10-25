@@ -350,20 +350,36 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
    * Handler for filters changes from the child filter component.
    * Updates internal filters state, syncs URL query params and shows loader.
    */
+
+
+
   onFiltersChange(updatedFilters: CatalogFilters): void {
-    this.loaderService.show();
-    this.filters = { ...updatedFilters };
+  this.filters = { ...updatedFilters };
 
-    const queryParams: Record<string, string[]> = {};
-    for (const category in this.filters) {
-      const activeKeys = Object.keys(this.filters[category]).filter(
-        (key) => this.filters[category][key],
-      );
-      if (activeKeys.length) {
-        queryParams[category] = activeKeys;
-      }
+  const queryParams: Record<string, string[]> = {};
+  let hasActiveFilters = false;
+
+  for (const category in this.filters) {
+    const activeKeys = Object.keys(this.filters[category]).filter(
+      (key) => this.filters[category][key],
+    );
+    if (activeKeys.length) {
+      queryParams[category] = activeKeys;
+      hasActiveFilters = true;
     }
+  }
 
+  // Обновляем список сразу, без loader, если фильтров нет
+  this.filterAndPaginate();
+
+  // Включаем loader только если есть активные фильтры
+  if (hasActiveFilters) {
+    this.loaderService.show();
+    setTimeout(() => this.loaderService.hide(), 300); // короткая анимация
+  }
+
+  // Обновляем URL только если есть фильтры
+  if (Object.keys(queryParams).length > 0) {
     this.updatingFromQueryParams = true;
     this.router.navigate([], {
       relativeTo: this.route,
@@ -371,6 +387,48 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
       queryParamsHandling: '',
     });
   }
+}
+
+
+
+// onFiltersChange(updatedFilters: CatalogFilters): void {
+//   this.filters = { ...updatedFilters };
+
+//   const queryParams: Record<string, string[]> = {};
+//   let hasActiveFilters = false;
+
+//   for (const category in this.filters) {
+//     const activeKeys = Object.keys(this.filters[category]).filter(
+//       (key) => this.filters[category][key],
+//     );
+//     if (activeKeys.length) {
+//       queryParams[category] = activeKeys;
+//       hasActiveFilters = true;
+//     }
+//   }
+
+//   // Включаем loader только если есть активные фильтры
+//   if (hasActiveFilters) {
+//     this.loaderService.show();
+//   }
+
+//   this.filterAndPaginate();
+//   this.loaderService.hide(); // сразу после фильтрации
+
+//   this.updatingFromQueryParams = true;
+//   this.router.navigate([], {
+//     relativeTo: this.route,
+//     queryParams,
+//     queryParamsHandling: '',
+//   });
+// }
+
+
+
+
+
+
+
 
   /**
    * Initializes filters object with all filter options set to false.
