@@ -1,8 +1,13 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { Observable } from 'rxjs';
+import {
+  ReactiveFormsModule,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
+import { Observable } from 'rxjs';
 
 import { ICONS } from '../../../shared/constants/icons.constant';
 import { IconComponent } from '../../../shared/components/icon.component';
@@ -15,14 +20,14 @@ import { ThemedIconPipe } from '../../../shared/pipes/themed-icon.pipe';
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule,
+    ReactiveFormsModule,
     IconComponent,
     ThemedIconPipe,
     TranslateModule,
   ],
   template: `
     <div class="flex flex-col gap-8">
-      <!-- Header section with back button and localized title -->
+      <!-- Header -->
       <div
         class="flex cursor-pointer select-none"
         (click)="goBack.emit()"
@@ -31,7 +36,6 @@ import { ThemedIconPipe } from '../../../shared/pipes/themed-icon.pipe';
         [attr.aria-label]="'AUTH.GO_BACK' | translate"
         (keydown.enter)="goBack.emit()"
         (keydown.space)="goBack.emit()"
-        style="user-select: none;"
       >
         <app-icon
           [icon]="'ArrowLeft' | themedIcon"
@@ -42,14 +46,15 @@ import { ThemedIconPipe } from '../../../shared/pipes/themed-icon.pipe';
         <h4>{{ 'AUTH.LOG_IN_TITLE' | translate }}</h4>
       </div>
 
-      <!-- Login form with email and password inputs -->
+      <!-- Form -->
       <form
-        autocomplete="off"
-        class="flex flex-col gap-[12px]"
+        [formGroup]="form"
         (ngSubmit)="submitLogin()"
+        autocomplete="off"
         novalidate
+        class="flex flex-col gap-[12px]"
       >
-        <!-- Email input field with validation and error display -->
+        <!-- Email -->
         <div class="flex flex-col gap-[4px]">
           <span
             class="body-font-2"
@@ -64,25 +69,21 @@ import { ThemedIconPipe } from '../../../shared/pipes/themed-icon.pipe';
           </span>
           <input
             type="email"
-            name="loginEmail"
-            [(ngModel)]="email"
-            (ngModelChange)="emailChange.emit($event)"
+            formControlName="email"
             [placeholder]="'AUTH.EMAIL_PLACEHOLDER' | translate"
-            required
-            [attr.aria-invalid]="loginError && !email"
-            aria-describedby="emailError"
-            [class.border-red-600]="loginError && !email"
-            [ngClass]="{
-              'border-[var(--color-gray-20)] placeholder-[var(--color-gray-75)]':
-                (currentTheme$ | async) === 'light',
-              'border-[var(--color-gray-100)] placeholder-[var(--color-gray-55)]':
-                (currentTheme$ | async) !== 'light',
-            }"
+            [class.border-red-600]="
+              loginError &&
+              form.get('email')?.invalid &&
+              form.get('email')?.touched
+            "
             class="body-font-1 rounded-[40px] border bg-[var(--color-bg)] px-6 py-3 focus:outline-none"
           />
           <div
-            *ngIf="loginError && !email"
-            id="emailError"
+            *ngIf="
+              loginError &&
+              form.get('email')?.invalid &&
+              form.get('email')?.touched
+            "
             role="alert"
             class="body-font-2 mt-1 flex select-none items-center gap-[4px] text-[var(--color-button-error)]"
           >
@@ -91,7 +92,7 @@ import { ThemedIconPipe } from '../../../shared/pipes/themed-icon.pipe';
           </div>
         </div>
 
-        <!-- Password input field with visibility toggle and validation -->
+        <!-- Password -->
         <div class="relative flex flex-col gap-[4px]">
           <span
             class="body-font-2"
@@ -107,25 +108,17 @@ import { ThemedIconPipe } from '../../../shared/pipes/themed-icon.pipe';
           <div class="relative">
             <input
               [type]="showPassword ? 'text' : 'password'"
-              name="loginPassword"
-              [(ngModel)]="password"
-              (ngModelChange)="passwordChange.emit($event)"
+              formControlName="password"
               [placeholder]="'AUTH.PASSWORD_PLACEHOLDER' | translate"
-              required
-              [attr.aria-invalid]="loginError && !password"
-              aria-describedby="passwordError"
-              [class.border-red-600]="loginError && !password"
-              [ngClass]="{
-                'border-[var(--color-gray-20)] placeholder-[var(--color-gray-75)]':
-                  (currentTheme$ | async) === 'light',
-                'border-[var(--color-gray-100)] placeholder-[var(--color-gray-55)]':
-                  (currentTheme$ | async) !== 'light',
-              }"
+              [class.border-red-600]="
+                loginError &&
+                form.get('password')?.invalid &&
+                form.get('password')?.touched
+              "
               class="body-font-1 w-full rounded-[40px] border bg-[var(--color-bg)] px-6 py-3 outline-none"
             />
-            <!-- Password visibility toggle button -->
             <button
-              *ngIf="password"
+              *ngIf="form.get('password')?.value"
               type="button"
               (click)="togglePasswordVisibility.emit()"
               tabindex="-1"
@@ -139,8 +132,11 @@ import { ThemedIconPipe } from '../../../shared/pipes/themed-icon.pipe';
             </button>
           </div>
           <div
-            *ngIf="loginError && !password"
-            id="passwordError"
+            *ngIf="
+              loginError &&
+              form.get('password')?.invalid &&
+              form.get('password')?.touched
+            "
             role="alert"
             class="body-font-2 mt-1 flex select-none items-center gap-[4px] text-[var(--color-button-error)]"
           >
@@ -149,11 +145,11 @@ import { ThemedIconPipe } from '../../../shared/pipes/themed-icon.pipe';
           </div>
         </div>
 
-        <!-- Submit button with disabled state based on input validation -->
+        <!-- Submit -->
         <button
           type="submit"
           class="button-font button-bg-blue px-[32px] py-[12px]"
-          [disabled]="loginError && (!email || !password)"
+          [disabled]="form.invalid"
         >
           {{ 'button.log_in' | translate }}
         </button>
@@ -164,37 +160,49 @@ import { ThemedIconPipe } from '../../../shared/pipes/themed-icon.pipe';
 export class AuthLoginStepComponent {
   readonly ICONS = ICONS;
 
-  @Input() email = '';
+  form: FormGroup;
 
-  @Input() password = '';
+  emailSignal = signal('');
+  passwordSignal = signal('');
 
   @Input() showPassword = false;
-
   @Input() loginError = false;
 
-  /** Emits when the email input changes */
   @Output() emailChange = new EventEmitter<string>();
-
-  /** Emits when the password input changes */
   @Output() passwordChange = new EventEmitter<string>();
-
-  /** Emits when user toggles password visibility */
   @Output() togglePasswordVisibility = new EventEmitter<void>();
-
-  /** Emits when user submits the login form */
   @Output() loginSubmit = new EventEmitter<void>();
-
-  /** Emits when user clicks the back button */
   @Output() goBack = new EventEmitter<void>();
 
-  /** Observable for current theme ('light' | 'dark') */
   readonly currentTheme$: Observable<Theme>;
 
-  constructor(private themeService: ThemeService) {
+  constructor(
+    private fb: FormBuilder,
+    private themeService: ThemeService,
+  ) {
     this.currentTheme$ = this.themeService.theme$;
+
+    this.form = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required],
+    });
+
+    this.form.get('email')!.valueChanges.subscribe((value) => {
+      this.emailSignal.set(value);
+      this.emailChange.emit(value);
+    });
+
+    this.form.get('password')!.valueChanges.subscribe((value) => {
+      this.passwordSignal.set(value);
+      this.passwordChange.emit(value);
+    });
   }
 
   submitLogin(): void {
-    this.loginSubmit.emit();
+    if (this.form.valid) {
+      this.loginSubmit.emit();
+    } else {
+      this.form.markAllAsTouched();
+    }
   }
 }

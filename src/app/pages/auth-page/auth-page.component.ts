@@ -28,15 +28,9 @@ import { ModalComponent } from '../../shared/components/modal.component';
     ModalComponent,
   ],
   template: `
-    <!-- Main authentication container -->
-    <div
-      class="mx-auto flex max-w-[1320px] flex-col gap-[32px] px-5 lg:px-10 xxl:px-0"
-    >
-      <!-- Step components: Email, Password/Registration, Login -->
+    <div class="mx-auto flex max-w-[1320px] flex-col gap-[32px] px-5 lg:px-10 xxl:px-0">
       <div class="grid grid-cols-8">
-        <div
-          class="col-span-8 lg:col-span-6 lg:col-start-2 xxl:col-span-4 xxl:col-start-3"
-        >
+        <div class="col-span-8 lg:col-span-6 lg:col-start-2 xxl:col-span-4 xxl:col-start-3">
           <ng-container [ngSwitch]="step">
             <!-- Step 1: Email entry -->
             <app-auth-email-step
@@ -47,7 +41,7 @@ import { ModalComponent } from '../../shared/components/modal.component';
               class="w-full"
             ></app-auth-email-step>
 
-            <!-- Step 2: Password creation/registration -->
+            <!-- Step 2: Password/Registration -->
             <app-auth-password-step
               *ngSwitchCase="2"
               [email]="email"
@@ -55,19 +49,18 @@ import { ModalComponent } from '../../shared/components/modal.component';
               [repeatPassword]="repeatPassword"
               [firstName]="firstName"
               [lastName]="lastName"
-              (passwordChange)="onPasswordChange($event)"
-              (repeatPasswordChange)="onRepeatPasswordChange($event)"
+              (passwordChange)="password = $event"
+              (repeatPasswordChange)="repeatPassword = $event"
               (firstNameChange)="firstName = $event"
               (lastNameChange)="lastName = $event"
               (passwordSubmit)="onSubmitPassword()"
               (goBack)="goBackToEmail()"
+              class="w-full"
             ></app-auth-password-step>
 
             <!-- Step 3: Login -->
             <app-auth-login-step
               *ngSwitchCase="3"
-              [email]="email"
-              [password]="password"
               [showPassword]="showPassword"
               [loginError]="loginError"
               (loginSubmit)="onSubmitLogin()"
@@ -97,8 +90,8 @@ import { ModalComponent } from '../../shared/components/modal.component';
         (close)="closeErrorModal()"
       >
         <div class="text-center">
-          <h2 class="text-xl font-semibold mb-4">Registration Error</h2>
-          <p class="text-base mb-6">{{ errorMessage }}</p>
+          <h2 class="mb-4 text-xl font-semibold">Registration Error</h2>
+          <p class="mb-6 text-base">{{ errorMessage }}</p>
           <button
             class="rounded-2xl bg-[var(--color-primary)] px-5 py-2 text-[var(--color-white)] hover:opacity-90"
             (click)="closeErrorModal()"
@@ -113,27 +106,21 @@ import { ModalComponent } from '../../shared/components/modal.component';
 export class AuthPageComponent {
   readonly ICONS = ICONS;
 
-  /** Current step in the authentication flow */
+  // =========================
+  // STATE
+  // =========================
   step = 1;
 
-  /** User input fields */
   email = '';
   password = '';
   repeatPassword = '';
   firstName = '';
   lastName = '';
 
-  /** UI state flags */
   showPassword = false;
-  showRepeatPassword = false;
-  passwordTooWeak = false;
-  passwordMismatch = false;
   loginError = false;
-  showMessage = false;
   showWelcomeModal = false;
-  isNewUser = false;
 
-  /** Error modal state */
   showErrorModal = false;
   errorMessage = '';
 
@@ -141,23 +128,21 @@ export class AuthPageComponent {
     private router: Router,
     private authService: AuthStateService,
     private storageService: StorageService,
-    private userApi: AuthApiService,
+    private userApi: AuthApiService
   ) {}
 
   // =========================
-  // STEP NAVIGATION METHODS
+  // STEP NAVIGATION
   // =========================
-
   onEmailSubmit(email: string): void {
     this.email = email;
     this.step = 2;
 
     this.password = '';
     this.repeatPassword = '';
-    this.passwordTooWeak = false;
-    this.passwordMismatch = false;
+    this.firstName = '';
+    this.lastName = '';
     this.showPassword = false;
-    this.showRepeatPassword = false;
   }
 
   toggleForm(): void {
@@ -173,18 +158,14 @@ export class AuthPageComponent {
   // =========================
   // PASSWORD / REGISTRATION
   // =========================
-
   onSubmitPassword(): void {
-    this.passwordTooWeak = false;
-    this.passwordMismatch = false;
-
-    if (this.password.length < 6) {
-      this.passwordTooWeak = true;
+    if (this.password !== this.repeatPassword) {
+      this.showError('Passwords do not match');
       return;
     }
 
-    if (this.password !== this.repeatPassword) {
-      this.passwordMismatch = true;
+    if (this.password.length < 6) {
+      this.showError('Password is too weak');
       return;
     }
 
@@ -193,7 +174,7 @@ export class AuthPageComponent {
         this.email,
         this.password,
         this.firstName.trim(),
-        this.lastName.trim(),
+        this.lastName.trim()
       )
       .subscribe({
         next: () => this.loginAfterRegistration(),
@@ -205,30 +186,26 @@ export class AuthPageComponent {
     this.authService.login(this.email, this.password).subscribe({
       next: () => this.loadUserProfile(true),
       error: (err) =>
-        this.showError('Login error after registration: ' + (err.message || err.statusText)),
+        this.showError(
+          'Login error after registration: ' + (err.message || err.statusText)
+        ),
     });
   }
 
   private handleRegistrationError(err: any): void {
-  console.log('REGISTRATION ERROR:', err);
+    const errorMessage =
+      typeof err.error === 'string'
+        ? err.error
+        : err.error?.message || err.message || err.statusText;
 
-  const errorMessage =
-    typeof err.error === 'string'
-      ? err.error
-      : err.error?.message || err.message || err.statusText;
-
-  if (err.status === 400 && errorMessage?.toLowerCase().includes('email')) {
-    this.password = '';
-    this.repeatPassword = '';
-
-    this.showError('This email is already registered. Please login.');
-    this.step = 3;
-  } else {
-    this.showError('Registration error: ' + errorMessage);
+    if (err.status === 400 && errorMessage?.toLowerCase().includes('email')) {
+      this.showError('This email is already registered. Please login.');
+      this.step = 3;
+    } else {
+      this.showError('Registration error: ' + errorMessage);
+    }
   }
-}
 
-  /** Opens error modal with given message */
   private showError(message: string): void {
     this.errorMessage = message;
     this.showErrorModal = true;
@@ -238,21 +215,9 @@ export class AuthPageComponent {
     this.showErrorModal = false;
   }
 
-  onPasswordChange(password: string): void {
-    this.password = password;
-    this.passwordTooWeak = this.password.length > 0 && this.password.length < 6;
-    this.passwordMismatch = false;
-  }
-
-  onRepeatPasswordChange(repeatPassword: string): void {
-    this.repeatPassword = repeatPassword;
-    this.passwordMismatch = false;
-  }
-
   // =========================
   // LOGIN
   // =========================
-
   onSubmitLogin(): void {
     this.loginError = false;
 
@@ -270,7 +235,6 @@ export class AuthPageComponent {
   // =========================
   // USER PROFILE LOADING
   // =========================
-
   private loadUserProfile(isNewUser: boolean): void {
     const userId = this.storageService.getUser()?.userId;
     if (!userId) return;
@@ -278,7 +242,6 @@ export class AuthPageComponent {
     this.userApi.getPublicUserProfile(userId).subscribe({
       next: (profile) => {
         this.storageService.setPublicUserProfile(profile);
-        this.isNewUser = isNewUser;
         this.showWelcomeModal = true;
       },
       error: (err) => {
@@ -288,24 +251,10 @@ export class AuthPageComponent {
     });
   }
 
-  // =========================
-  // UI HELPERS
-  // =========================
-
-  showTemporaryMessage(): void {
-    this.showMessage = true;
-    setTimeout(() => (this.showMessage = false), 3000);
-  }
-
   closeWelcomeModal(): void {
     this.showWelcomeModal = false;
-
     const returnUrl = localStorage.getItem('returnUrl') || '/';
     localStorage.removeItem('returnUrl');
     this.router.navigateByUrl(returnUrl);
-  }
-
-  goHome(): void {
-    this.router.navigate(['/']);
   }
 }
