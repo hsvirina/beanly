@@ -44,15 +44,6 @@ That’s why we built **beanly**:
 
 ---
 
-## 🎨 Design Philosophy
-
-- Minimal, modern, and **user-friendly** interface  
-- Card-based browsing for quick café exploration  
-- Playful branding with a **friendly identity & logo**  
-- Gamification baked into the user journey  
-
----
-
 ## 🌟 Impact
 
 With beanly, we:  
@@ -68,14 +59,14 @@ With beanly, we:
 ## 🛠 Tech Stack  
 [![My Skills](https://skillicons.dev/icons?i=angular,tailwind,ts,html,css,sass,vscode,github,figma)](https://skillicons.dev)
 
-- **Frontend:** Angular 20, TypeScript  
-- **Styling:** SCSS, TailwindCSS, PostCSS, Stylelint  
-- **Routing & Animations:** @angular/router, @angular/animations  
-- **Internationalization (i18n):** @ngx-translate/core, @ngx-translate/http-loader  
-- **State / Reactive:** RxJS  
-- **Testing:** Jasmine, Karma  
-- **Deployment:** angular-cli-ghpages  
-- **Code Formatting:** Prettier + Prettier Plugin TailwindCSS  
+- **Angular 20** — used to build all main pages and components  
+- **Reactive Forms & RxJS** — implemented for efficient state management and handling asynchronous data streams  
+- **Signals** — used for a more predictable and reactive data flow  
+- **@ngx-translate/core** — used for internationalization (i18n), adding multilingual support and easy localization  
+- **TailwindCSS** — used for fast and modern UI styling  
+- **Responsive design & dark/light mode** — implemented for better user experience across all devices and preferences  
+- **Vercel** — used for fast and seamless project deployment  
+- **Prettier & Stylelint** — ensured clean, readable, and maintainable code
 
 ---
 
@@ -106,6 +97,7 @@ src/
 ├─ index.html
 ├─ main.ts
 └─ polyfills.ts
+
 
 
 
