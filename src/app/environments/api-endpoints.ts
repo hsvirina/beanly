@@ -3,7 +3,7 @@
  * Do NOT edit manually.
  */
 
-export const API_BASE_URL = 'https://coffeespot.54-221-160-23.nip.io/api';
+export const API_BASE_URL = 'http://localhost:4200/api';
 
 export const API_ENDPOINTS = {
   places: { list: `${API_BASE_URL}/cafes` },
