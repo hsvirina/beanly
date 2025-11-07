@@ -39,3 +39,6 @@ testem.log
 .DS_Store
 Thumbs.db
 .env
+
+# Angular generated environment folder
+/src/app/environments
